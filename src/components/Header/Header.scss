@@ -1,0 +1,9 @@
+.nav-container {
+    .navbar-nav {
+        .nav-link {
+            &.active {
+                color     : #00bbff
+            }
+        }
+    }
+}
