@@ -13,8 +13,9 @@ import { FaTachometerAlt, FaGem  } from 'react-icons/fa';
 import sidebarBg from '../../assets/bg2.jpg';
 
 import { GiAbstract007 } from "react-icons/gi";
+import { Link } from 'react-router-dom';
 const SideBar = (props) => {
-    const { image, collapsed, toggled, handleToggleSidebar } = props;
+    const { collapsed, toggled, handleToggleSidebar } = props;
     return (
         <>
             <ProSidebar
@@ -47,6 +48,7 @@ const SideBar = (props) => {
                             icon={<FaTachometerAlt />}
                         >
                             Dashboard
+                            <Link to="/admin"/>
                         </MenuItem>
 
                     </Menu>
@@ -56,7 +58,10 @@ const SideBar = (props) => {
                             icon={<FaGem />}
                             title="Features"
                         >
-                            <MenuItem> Quản lý User</MenuItem>
+                            <MenuItem> Quản lý User
+                                <Link to="/admin/manage-users" />
+
+                            </MenuItem>
                             <MenuItem> Quản lý  Quiz</MenuItem>
                             <MenuItem> Quản lý Câu Hỏi</MenuItem>
                         </SubMenu>
