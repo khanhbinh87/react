@@ -4,7 +4,8 @@ import Modal from 'react-bootstrap/Modal';
 import './ModalUser.scss'
 import { FcPlus } from "react-icons/fc"
 import axios from 'axios';
-import {  toast } from 'react-toastify';
+import { toast } from 'react-toastify';
+import { postCreateUser } from '../../../services/apiServices';
 
 const ModalUser = (props) => {
     const [email, setEmail] = useState("")
@@ -40,37 +41,32 @@ const ModalUser = (props) => {
                 /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
             );
     };
-    const handleSubmitCreateUser = async ()=>{
-       //validate
-       let isValidateEmail = validateEmail(email)
-        if (!isValidateEmail){
-            toast.error('Invalid email')
-            return;
-        }
-        if(!password){
+    const handleSubmitCreateUser = async () => {
+        //validate
+        // let isValidateEmail = validateEmail(email)
+        // if (!isValidateEmail){
+        //     toast.error('Invalid email')
+        //     return;
+        // }
+        if (!password) {
             toast.error('Invalid password')
 
         }
         //submit data
-        const data = new FormData();
-        data.append('email', email);
-        data.append('password', password);
-        data.append('username', username);
-        data.append('role', role);
-        data.append('userImage', image);
 
-        let response =  await axios.post('http://localhost:8081/api/v1/participant', data)
-        console.log(response.data)
-        if(response.data && response.data.EC === 0){
-            toast.success(response.data.EM)
+
+        let data = await postCreateUser(email, password, username, role, image)
+
+        if (data && data.EC === 0) {
+            toast.success(data.EM)
             handleClose()
         }
-        if (response.data && response.data.EC !== 0) {
-            toast.error(response.data.EM)
-            
+        if (data && data.EC !== 0) {
+            toast.error(data.EM)
+
         }
     }
-    
+
     return (
         <>
             {/* <Button variant="primary" onClick={handleShow}>
