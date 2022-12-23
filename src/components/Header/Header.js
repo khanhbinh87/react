@@ -17,12 +17,14 @@ function Header() {
                         <NavLink className="nav-link" to="admin">Admin</NavLink>
                     </Nav>
                     <Nav>
-                        <NavDropdown title="Setting" id="basic-nav-dropdown">
+                        <button className='log-in'>Log in</button>
+                        <button className='sign-up'>Sign up</button>
+                        {/* <NavDropdown title="Setting" id="basic-nav-dropdown">
                             <NavDropdown.Item >Profile</NavDropdown.Item>
                             <NavDropdown.Item > Log in</NavDropdown.Item>
                             <NavDropdown.Item >Log out</NavDropdown.Item>
 
-                        </NavDropdown>
+                        </NavDropdown> */}
                     </Nav>
                 </Navbar.Collapse>
             </Container>

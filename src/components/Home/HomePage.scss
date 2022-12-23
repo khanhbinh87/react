@@ -1,0 +1,49 @@
+.homepage-container {
+
+
+    video {
+        position     : fixed;
+        bottom       : 0;
+        width        : 100vw;
+
+    }
+
+    .homepage-content {
+        padding      : 0 200px;
+        position     : relative;
+        z-index      : 10;
+    }
+
+    .homepage-title {
+        font-size          : 64px;
+        line-height        : 80px;
+        letter-spacing     : -0.02em;
+        max-width          : 535px;
+        font-weight        : 300;
+        margin-top: 70px;
+    }
+
+    .homepage-desc {
+        max-width       : 456px;
+        font-size       : 24px;
+        line-height     : 1.3;
+        color           : rgb(38, 38, 39);
+        font-style      : normal;
+        font-weight     : 300;
+        margin-top      : 20px;
+    }
+
+    .homepage-start {
+        border              : 1px solid black;
+        background          : black;
+        padding             : 10px;
+        border-radius       : 5px;
+        text-decoration     : none;
+        color               : white;
+        display             : inline-block;
+        margin-top          : 40px;
+        &:hover{
+            opacity: 0.7;
+        }
+    }
+}
