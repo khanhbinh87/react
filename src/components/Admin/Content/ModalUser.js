@@ -3,19 +3,29 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import './ModalUser.scss'
 import { FcPlus } from "react-icons/fc"
+import axios from 'axios';
+import {  toast } from 'react-toastify';
 
 const ModalUser = (props) => {
-
-    const { show, setShow } = props;
-
-    const handleClose = () => setShow(false);
-
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [username, setUsername] = useState("")
     const [role, setRole] = useState('USER')
     const [image, setImage] = useState('')
     const [preview, setPreview] = useState('')
+    const { show, setShow } = props;
+
+    const handleClose = () => {
+        setEmail('')
+        setPassword('')
+        setUsername('')
+        setRole('USER')
+        setImage('')
+        setPreview('')
+        setShow(false)
+    };
+
+
     const handleUploadFile = (e) => {
         if (e.target && e.target.files && e.target.files[0]) {
             setImage(e.target.files[0])
@@ -23,6 +33,44 @@ const ModalUser = (props) => {
         }
 
     }
+    const validateEmail = (email) => {
+        return String(email)
+            .toLowerCase()
+            .match(
+                /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+            );
+    };
+    const handleSubmitCreateUser = async ()=>{
+       //validate
+       let isValidateEmail = validateEmail(email)
+        if (!isValidateEmail){
+            toast.error('Invalid email')
+            return;
+        }
+        if(!password){
+            toast.error('Invalid password')
+
+        }
+        //submit data
+        const data = new FormData();
+        data.append('email', email);
+        data.append('password', password);
+        data.append('username', username);
+        data.append('role', role);
+        data.append('userImage', image);
+
+        let response =  await axios.post('http://localhost:8081/api/v1/participant', data)
+        console.log(response.data)
+        if(response.data && response.data.EC === 0){
+            toast.success(response.data.EM)
+            handleClose()
+        }
+        if (response.data && response.data.EC !== 0) {
+            toast.error(response.data.EM)
+            
+        }
+    }
+    
     return (
         <>
             {/* <Button variant="primary" onClick={handleShow}>
@@ -91,7 +139,7 @@ const ModalUser = (props) => {
                     <Button variant="secondary" onClick={handleClose}>
                         Close
                     </Button>
-                    <Button variant="primary" onClick={handleClose}>
+                    <Button variant="primary" onClick={() => handleSubmitCreateUser()}>
                         Save
                     </Button>
                 </Modal.Footer>

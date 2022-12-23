@@ -5,9 +5,7 @@ import { useState } from "react";
 
 export default function ManageUser() {
   const [show,setShow] = useState(false)
-  const handleShow =()=> {
-    setShow(true)
-  }
+ 
   return (
     <div className='manage-user-container'>
       <div className='title'>
@@ -16,8 +14,8 @@ export default function ManageUser() {
       <div className='user-content'>
         <div>
           <button 
-          className='btn btn-success add-new'
-          onClick={()=> handleShow()}
+          className='btn btn-primary add-new'
+            onClick={() => setShow(true)}
           ><FcPlus />Add new users</button>
         </div>
         <div>
