@@ -9,10 +9,10 @@ import {
     SidebarContent,
 } from 'react-pro-sidebar';
 
-import { FaTachometerAlt, FaGem, FaList, FaGithub, FaRegLaughWink, FaHeart } from 'react-icons/fa';
+import { FaTachometerAlt, FaGem  } from 'react-icons/fa';
 import sidebarBg from '../../assets/bg2.jpg';
 
-
+import { GiAbstract007 } from "react-icons/gi";
 const SideBar = (props) => {
     const { image, collapsed, toggled, handleToggleSidebar } = props;
     return (
@@ -37,7 +37,7 @@ const SideBar = (props) => {
                             whiteSpace: 'nowrap',
                         }}
                     >
-                        KB
+                        <GiAbstract007 size={'2em'} color={'00bfff'} /> KB
                     </div>
                 </SidebarHeader>
 
@@ -45,20 +45,20 @@ const SideBar = (props) => {
                     <Menu iconShape="circle">
                         <MenuItem
                             icon={<FaTachometerAlt />}
-                            suffix={<span className="badge red">New</span>}
                         >
-                            dashboard
+                            Dashboard
                         </MenuItem>
-                        <MenuItem icon={<FaGem />}> components </MenuItem>
+
                     </Menu>
                     <Menu iconShape="circle">
                         <SubMenu
-                            suffix={<span className="badge yellow">3</span>}
-                            icon={<FaRegLaughWink />}
+
+                            icon={<FaGem />}
+                            title="Features"
                         >
-                            <MenuItem> 1</MenuItem>
-                            <MenuItem> 2</MenuItem>
-                            <MenuItem> 3</MenuItem>
+                            <MenuItem> Quản lý User</MenuItem>
+                            <MenuItem> Quản lý  Quiz</MenuItem>
+                            <MenuItem> Quản lý Câu Hỏi</MenuItem>
                         </SubMenu>
 
                     </Menu>
@@ -77,9 +77,9 @@ const SideBar = (props) => {
                             className="sidebar-btn"
                             rel="noopener noreferrer"
                         >
-                            <FaGithub />
+                           
                             <span style={{ whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden' }}>
-                                viewSource
+                                &#169;KB
                             </span>
                         </a>
                     </div>
