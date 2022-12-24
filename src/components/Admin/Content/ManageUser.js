@@ -1,12 +1,28 @@
 import ModalUser from "./ModalUser";
 import './ManageUser.scss'
 import { FcPlus } from "react-icons/fc"
-import { useEffect, useState } from "react";
+
 import axios from 'axios'
 import TableUser from "./TableUser";
+import React, { useEffect, useState } from 'react'
+import { getAllUser } from '../../../services/apiServices'
+
+
 export default function ManageUser() {
   const [show, setShow] = useState(false)
- 
+  const [listUser, setListUser] = useState([]);
+
+  useEffect(() => {
+    fetchAllUser();
+  }, [])
+  const fetchAllUser = async () => {
+    let res = await getAllUser()
+
+    if (res.EC === 0) {
+      setListUser(res.DT)
+
+    }
+  }
   return (
     <div className='manage-user-container'>
       <div className='title'>
@@ -22,9 +38,9 @@ export default function ManageUser() {
         <div className="table-users-container">
           <hr />
           <p>Table User : </p>
-          <TableUser />
+          <TableUser listUser={listUser} />
         </div>
-        <ModalUser show={show} setShow={setShow} />
+        <ModalUser show={show} setShow={setShow} fetchAllUser={fetchAllUser}/>
 
       </div>
     </div>

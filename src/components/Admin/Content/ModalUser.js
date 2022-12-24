@@ -26,7 +26,7 @@ const ModalUser = (props) => {
         setShow(false)
     };
 
-
+    const { fetchAllUser } = props
     const handleUploadFile = (e) => {
         if (e.target && e.target.files && e.target.files[0]) {
             setImage(e.target.files[0])
@@ -60,6 +60,7 @@ const ModalUser = (props) => {
         if (data && data.EC === 0) {
             toast.success(data.EM)
             handleClose()
+            fetchAllUser()
         }
         if (data && data.EC !== 0) {
             toast.error(data.EM)

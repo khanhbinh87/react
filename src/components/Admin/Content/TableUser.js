@@ -1,24 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { getAllUser } from '../../../services/apiServices'
-export default function TableUser() {
-    const [listUser, setListUser] = useState([]);
-    useEffect(() => {
-        fetchAllUser();
-    }, [])
-    const fetchAllUser = async () => {
-        let res = await getAllUser()
-
-        if (res.EC === 0) {
-            setListUser(res.DT)
-
-        }
-    }
+export default function TableUser(props) {
+    const { listUser } = props
     return (
         <>
             <table class="table table-hover table-bordered">
                 <thead>
                     <tr>
-                        <th scope="col">#</th>
+                        <th scope="col">ID</th>
                         <th scope="col">UserName</th>
                         <th scope="col">Email</th>
                         <th scope="col">Role</th>
@@ -31,10 +20,10 @@ export default function TableUser() {
                     {
                         listUser && listUser.length > 0 && listUser.map((item, index) => {
                             return (
-                                <tr>
-                                    <th scope="row">{index + 1}</th>
-                                    <td>{item.username}</td>
+                                <tr key={`table users - ${index}`}>
+                                    <th scope="row">{item.id}</th>
                                     <td>{item.email}</td>
+                                    <td>{item.username}</td>
                                     <td>{item.role}</td>
                                     <td>
                                         <button className='btn btn-secondary'>View</button>
