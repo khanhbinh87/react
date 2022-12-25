@@ -6,12 +6,14 @@ import axios from 'axios'
 import TableUser from "./TableUser";
 import React, { useEffect, useState } from 'react'
 import { getAllUser } from '../../../services/apiServices'
+import ModalUpdateUser from "./ModalUpdateUser";
 
 
 export default function ManageUser() {
   const [show, setShow] = useState(false)
   const [listUser, setListUser] = useState([]);
-
+  const [showModalUpdateUser, setShowModalUpdateUser] = useState(false)
+  const [dataUpdate, setDataUpdate] = useState({})
   useEffect(() => {
     fetchAllUser();
   }, [])
@@ -22,6 +24,10 @@ export default function ManageUser() {
       setListUser(res.DT)
 
     }
+  }
+  const handleUpdateUser = (user) => {
+    setShowModalUpdateUser(true)
+    setDataUpdate(user)
   }
   return (
     <div className='manage-user-container'>
@@ -38,10 +44,19 @@ export default function ManageUser() {
         <div className="table-users-container">
           <hr />
           <p>Table User : </p>
-          <TableUser listUser={listUser} />
+          <TableUser listUser={listUser} handleUpdateUser={handleUpdateUser} />
         </div>
-        <ModalUser show={show} setShow={setShow} fetchAllUser={fetchAllUser}/>
-
+        <ModalUser
+          show={show}
+          setShow={setShow}
+          fetchAllUser={fetchAllUser} />
+        <ModalUpdateUser
+          show={showModalUpdateUser}
+          setShow={setShowModalUpdateUser}
+          dataUpdate={dataUpdate}
+          fetchAllUser={fetchAllUser} 
+          setDataUpdate={setDataUpdate}
+          />
       </div>
     </div>
   )

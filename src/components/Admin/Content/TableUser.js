@@ -1,15 +1,15 @@
-import React, { useEffect, useState } from 'react'
-import { getAllUser } from '../../../services/apiServices'
+
+
 export default function TableUser(props) {
-    const { listUser } = props
+    const { listUser, handleUpdateUser } = props
     return (
         <>
-            <table class="table table-hover table-bordered">
+            <table className="table table-hover table-bordered">
                 <thead>
                     <tr>
                         <th scope="col">ID</th>
-                        <th scope="col">UserName</th>
                         <th scope="col">Email</th>
+                        <th scope="col">Username</th>
                         <th scope="col">Role</th>
                         <th scope="col">Action</th>
 
@@ -27,7 +27,10 @@ export default function TableUser(props) {
                                     <td>{item.role}</td>
                                     <td>
                                         <button className='btn btn-secondary'>View</button>
-                                        <button className='btn btn-warning mx-2'>Update</button>
+                                        <button 
+                                        className='btn btn-warning mx-2'
+                                            onClick={() => handleUpdateUser(item)}
+                                        >Update</button>
                                         <button className='btn btn-danger'>Delete</button>
                                     </td>
                                 </tr>)
