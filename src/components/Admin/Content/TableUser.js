@@ -1,7 +1,7 @@
 
 
 export default function TableUser(props) {
-    const { listUser, handleUpdateUser, handleViewUser } = props
+    const { listUser, handleUpdateUser, handleViewUser, handleDeleteUser } = props
     return (
         <>
             <table className="table table-hover table-bordered">
@@ -34,7 +34,11 @@ export default function TableUser(props) {
                                             className='btn btn-warning mx-2'
                                             onClick={() => handleUpdateUser(item)}
                                         >Update</button>
-                                        <button className='btn btn-danger'>Delete</button>
+                                        <button
+                                            className='btn btn-danger'
+                                            onClick={() => handleDeleteUser(item)}
+
+                                        >Delete</button>
                                     </td>
                                 </tr>)
                         })
