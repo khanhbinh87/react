@@ -20,6 +20,7 @@ export default function ManageUser() {
   const [dataUpdate, setDataUpdate] = useState({})
   const [dataDelete, setDataDelete] = useState({})
   const [pageCount, setPageCount] = useState(0)
+  const [currentPage,setCurrentPage] = useState(1)
   const LIMIT_PAGE = 4;
   useEffect(() => {
     // fetchAllUser();
@@ -31,6 +32,7 @@ export default function ManageUser() {
       setListUser(res.DT)
     }
   }
+
   const fetchAllUserPaginate = async (page ) => {
     let res = await getAllUserPaginate(page,LIMIT_PAGE)
     if (res.EC === 0) {
@@ -80,18 +82,27 @@ export default function ManageUser() {
             handleDeleteUser={handleDeleteUser}
             pageCount={pageCount}
             fetchAllUserPaginate={fetchAllUserPaginate}
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
           />
         </div>
         <ModalUser
           show={show}
           setShow={setShow}
-          fetchAllUser={fetchAllUser} />
+          fetchAllUser={fetchAllUser} 
+          fetchAllUserPaginate={fetchAllUserPaginate}
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+          />
         <ModalUpdateUser
           show={showModalUpdateUser}
           setShow={setShowModalUpdateUser}
           dataUpdate={dataUpdate}
           fetchAllUser={fetchAllUser}
+          fetchAllUserPaginate={fetchAllUserPaginate}
           setDataUpdate={setDataUpdate}
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
         />
         <ModalViewUser
           show={showModalViewUser}
@@ -106,6 +117,10 @@ export default function ManageUser() {
           setShow={setShowModalDeleteUser}
           dataDelete={dataDelete}
           fetchAllUser={fetchAllUser}
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+          fetchAllUserPaginate={fetchAllUserPaginate}
+         
         />
 
       </div>

@@ -14,7 +14,7 @@ const ModalUser = (props) => {
     const [role, setRole] = useState('USER')
     const [image, setImage] = useState('')
     const [preview, setPreview] = useState('')
-    const { show, setShow } = props;
+    const { show, setShow, currentPage } = props;
 
     const handleClose = () => {
         setEmail('')
@@ -60,7 +60,8 @@ const ModalUser = (props) => {
         if (data && data.EC === 0) {
             toast.success(data.EM)
             handleClose()
-            await props.fetchAllUser()
+            // await props.fetchAllUser()
+            await props.fetchAllUserPaginate(1)
         }
         if (data && data.EC !== 0) {
             toast.error(data.EM)

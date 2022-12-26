@@ -1,0 +1,31 @@
+.login-container {
+    padding: 20px;
+    .header {
+        text-align     : right;
+    }
+
+    .title {
+        text-align      : center;
+        font-weight     : 500;
+        font-size       : 25px;
+    }
+
+    .welcome {
+        text-align      : center;
+        font-weight     : 500;
+        font-size       : 20px;
+        color           : #797171;
+    }
+    .content-form{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        
+        justify-content: center;
+        gap: 15px;
+    }
+    .btn-login{
+        background-color: black;
+        color: #fff;
+    }
+}

@@ -6,11 +6,16 @@ export default function TableUserPaginate(props) {
         handleViewUser,
         handleDeleteUser,
         pageCount,
-        fetchAllUserPaginate } = props
+        fetchAllUserPaginate,
+        currentPage,
+        setCurrentPage
+    } = props
     const handlePageClick = (event) => {
         fetchAllUserPaginate(+event.selected + 1)
-        console.log('pagecout', pageCount)
-        console.log(`User requested page number ${+event.selected + 1}`);
+        setCurrentPage(+event.selected + 1)
+
+        // console.log('pagecout', pageCount)
+        // console.log(`User requested page number ${+event.selected + 1}`);
     };
     return (
         <>
@@ -64,26 +69,29 @@ export default function TableUserPaginate(props) {
                 </tbody>
 
             </table>
-            <ReactPaginate
-                nextLabel="next >"
-                onPageChange={handlePageClick}
-                pageRangeDisplayed={3}
-                marginPagesDisplayed={2}
-                pageCount={pageCount}
-                previousLabel="< previous"
-                pageClassName="page-item"
-                pageLinkClassName="page-link"
-                previousClassName="page-item"
-                previousLinkClassName="page-link"
-                nextClassName="page-item"
-                nextLinkClassName="page-link"
-                breakLabel="..."
-                breakClassName="page-item"
-                breakLinkClassName="page-link"
-                containerClassName="pagination"
-                activeClassName="active"
-                renderOnZeroPageCount={null}
-            />
+            <div className="d-flex justify-content-center align-items-center">
+                <ReactPaginate
+                    nextLabel="next >"
+                    onPageChange={handlePageClick}
+                    pageRangeDisplayed={3}
+                    marginPagesDisplayed={2}
+                    pageCount={pageCount}
+                    previousLabel="< previous"
+                    pageClassName="page-item"
+                    pageLinkClassName="page-link"
+                    previousClassName="page-item"
+                    previousLinkClassName="page-link"
+                    nextClassName="page-item"
+                    nextLinkClassName="page-link"
+                    breakLabel="..."
+                    breakClassName="page-item"
+                    breakLinkClassName="page-link"
+                    containerClassName="pagination"
+                    activeClassName="active"
+                    renderOnZeroPageCount={null}
+                    // forcePage={currentPage  - 1}
+                />
+            </div>
         </>
     )
 }

@@ -12,8 +12,10 @@ const getAllUser = () => {
     return axios.get('/api/v1/participant/all')
 }
 const updateUser = (id, username, role, image) => {
+    
     const data = new FormData();
     data.append('id', id);
+    
 
     data.append('username', username);
     data.append('role', role);

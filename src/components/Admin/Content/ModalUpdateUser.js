@@ -5,7 +5,7 @@ import './ModalUser.scss'
 import { FcPlus } from "react-icons/fc"
 import _ from 'lodash'
 import { toast } from 'react-toastify';
-import {  updateUser } from '../../../services/apiServices';
+import { updateUser } from '../../../services/apiServices';
 
 
 const ModalUpdateUser = (props) => {
@@ -15,12 +15,14 @@ const ModalUpdateUser = (props) => {
     const [role, setRole] = useState('USER')
     const [image, setImage] = useState('')
     const [preview, setPreview] = useState('')
-    const { show, setShow, dataUpdate, setDataUpdate } = props;
-    
+    const { show, setShow, dataUpdate, setDataUpdate, currentPage,
+        setCurrentPage } = props;
+
     useEffect(() => {
         if (!_.isEmpty(dataUpdate)) {
             setEmail(dataUpdate.email)
             setUsername(dataUpdate.username)
+            setEmail(dataUpdate.email)
             setRole(dataUpdate.role)
             setImage('')
             if (dataUpdate.image) {
@@ -47,15 +49,17 @@ const ModalUpdateUser = (props) => {
         }
 
     }
-  
+
     const handleSubmitCreateUser = async () => {
-        
+
         let data = await updateUser(dataUpdate.id, username, role, image)
 
         if (data && data.EC === 0) {
             toast.success(data.EM)
             handleClose()
-            await props.fetchAllUser()
+            // await props.fetchAllUser()
+            await props.fetchAllUserPaginate(currentPage)
+
         }
         if (data && data.EC !== 0) {
             toast.error(data.EM)
@@ -65,7 +69,7 @@ const ModalUpdateUser = (props) => {
 
     return (
         <>
-           
+
             <Modal
                 show={show}
                 onHide={handleClose}
@@ -84,6 +88,7 @@ const ModalUpdateUser = (props) => {
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
                                 disabled
+
                             />
                         </div>
                         <div className="col-md-6">

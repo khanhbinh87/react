@@ -6,17 +6,18 @@ import { toast } from 'react-toastify';
 
 export default function ModalDeleteUser(props) {
 
-    const { show, setShow, dataDelete } = props;
+    const { show, setShow, dataDelete, currentPage, setCurrentPage } = props;
     const handleClose = () => setShow(false);
+   
     const handleSubmitDeleteUser = async () => {
-
 
         let data = await deleteUser(dataDelete.id)
 
         if (data && data.EC === 0) {
             toast.success(data.EM)
             handleClose()
-            await props.fetchAllUser()
+            // await props.fetchAllUser()
+            await props.fetchAllUserPaginate(currentPage)
         }
         if (data && data.EC !== 0) {
             toast.error(data.EM)
@@ -27,8 +28,6 @@ export default function ModalDeleteUser(props) {
     return (
 
         <>
-
-
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
                     <Modal.Title>Confirm delete the user </Modal.Title>
