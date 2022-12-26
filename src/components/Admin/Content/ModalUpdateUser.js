@@ -47,27 +47,9 @@ const ModalUpdateUser = (props) => {
         }
 
     }
-    // const validateEmail = (email) => {
-    //     return String(email)
-    //         .toLowerCase()
-    //         .match(
-    //             /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-    //         );
-    // };
+  
     const handleSubmitCreateUser = async () => {
-        //validate
-        // let isValidateEmail = validateEmail(email)
-        // if (!isValidateEmail) {
-        //     toast.error('Invalid email')
-        //     return;
-        // }
-        // if (!password) {
-        //     toast.error('Invalid password')
-
-        // }
-        //submit data
-
-
+        
         let data = await updateUser(dataUpdate.id, username, role, image)
 
         if (data && data.EC === 0) {
@@ -83,10 +65,7 @@ const ModalUpdateUser = (props) => {
 
     return (
         <>
-            {/* <Button variant="primary" onClick={handleShow}>
-                Add new user
-            </Button> */}
-
+           
             <Modal
                 show={show}
                 onHide={handleClose}

@@ -90,7 +90,7 @@ export default function ManageUser() {
           show={showModalDeleteUser}
           setShow={setShowModalDeleteUser}
           dataDelete={dataDelete}
-        
+          fetchAllUser={fetchAllUser}
         />
       </div>
     </div>
