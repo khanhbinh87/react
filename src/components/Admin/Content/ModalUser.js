@@ -3,7 +3,7 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import './ModalUser.scss'
 import { FcPlus } from "react-icons/fc"
-import axios from 'axios';
+
 import { toast } from 'react-toastify';
 import { postCreateUser } from '../../../services/apiServices';
 

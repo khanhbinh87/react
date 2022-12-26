@@ -2,15 +2,14 @@ import ModalUser from "./ModalUser";
 import './ManageUser.scss'
 import { FcPlus } from "react-icons/fc"
 
-import axios from 'axios'
 import TableUser from "./TableUser";
 import React, { useEffect, useState } from 'react'
-import { getAllUser } from '../../../services/apiServices'
+import { getAllUser, getAllUserPaginate } from '../../../services/apiServices'
 import ModalUpdateUser from "./ModalUpdateUser";
 import ModalViewUser from "./ModalViewUser";
-import { deleteUser } from "../../../services/apiServices";
-import { toast } from 'react-toastify';
+
 import ModalDeleteUser from "./ModalDeleteUser";
+import TableUserPaginate from "./TableUserPaginate";
 
 export default function ManageUser() {
   const [show, setShow] = useState(false)
@@ -20,15 +19,23 @@ export default function ManageUser() {
   const [showModalDeleteUser, setShowModalDeleteUser] = useState(false)
   const [dataUpdate, setDataUpdate] = useState({})
   const [dataDelete, setDataDelete] = useState({})
+  const [pageCount, setPageCount] = useState(0)
+  const LIMIT_PAGE = 4;
   useEffect(() => {
-    fetchAllUser();
+    // fetchAllUser();
+    fetchAllUserPaginate(1)
   }, [])
   const fetchAllUser = async () => {
     let res = await getAllUser()
-
     if (res.EC === 0) {
       setListUser(res.DT)
-
+    }
+  }
+  const fetchAllUserPaginate = async (page ) => {
+    let res = await getAllUserPaginate(page,LIMIT_PAGE)
+    if (res.EC === 0) {
+      setListUser(res.DT.users)
+      setPageCount(res.DT.totalPages)
     }
   }
   const handleUpdateUser = (user) => {
@@ -40,11 +47,11 @@ export default function ManageUser() {
     setShowModalViewUser(true)
     setDataUpdate(user)
   }
-   const handleDeleteUser =  (item) => {
-   
-      setShowModalDeleteUser(true)
-      setDataDelete(item)
-   }
+  const handleDeleteUser = (item) => {
+
+    setShowModalDeleteUser(true)
+    setDataDelete(item)
+  }
   return (
     <div className='manage-user-container'>
       <div className='title'>
@@ -60,11 +67,19 @@ export default function ManageUser() {
         <div className="table-users-container">
           <hr />
           <p>Table User : </p>
-          <TableUser
+          {/* <TableUser
             listUser={listUser}
             handleUpdateUser={handleUpdateUser}
             handleViewUser={handleViewUser}
-            handleDeleteUser={handleDeleteUser  }
+            handleDeleteUser={handleDeleteUser}
+          /> */}
+          <TableUserPaginate
+            listUser={listUser}
+            handleUpdateUser={handleUpdateUser}
+            handleViewUser={handleViewUser}
+            handleDeleteUser={handleDeleteUser}
+            pageCount={pageCount}
+            fetchAllUserPaginate={fetchAllUserPaginate}
           />
         </div>
         <ModalUser
@@ -86,12 +101,13 @@ export default function ManageUser() {
           dataUpdate={dataUpdate}
 
         />
-        <ModalDeleteUser 
+        <ModalDeleteUser
           show={showModalDeleteUser}
           setShow={setShowModalDeleteUser}
           dataDelete={dataDelete}
           fetchAllUser={fetchAllUser}
         />
+
       </div>
     </div>
   )
