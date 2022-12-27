@@ -14,7 +14,7 @@ const ModalUser = (props) => {
     const [role, setRole] = useState('USER')
     const [image, setImage] = useState('')
     const [preview, setPreview] = useState('')
-    const { show, setShow, currentPage } = props;
+    const { show, setShow } = props;
 
     const handleClose = () => {
         setEmail('')

@@ -8,7 +8,7 @@ import _ from 'lodash'
 
 const ModalViewUser = (props) => {
     const [email, setEmail] = useState("")
-    const [password, setPassword] = useState("")
+  
     const [username, setUsername] = useState("")
     const [role, setRole] = useState('USER')
     const [image, setImage] = useState('')
@@ -28,7 +28,7 @@ const ModalViewUser = (props) => {
     }, [dataUpdate])
     const handleClose = () => {
         setEmail('')
-        setPassword('')
+       
         setUsername('')
         setRole('USER')
         setImage('')
@@ -79,6 +79,7 @@ const ModalViewUser = (props) => {
                             <label className="form-label">Role</label>
                             <select
                                 disabled
+                                value={role}
                                 className="form-select"
                                 onChange={(e) => setRole(e.target.value)}>
                                 <option defaultValue="USER">USER</option>
@@ -88,7 +89,7 @@ const ModalViewUser = (props) => {
 
                         <div className="col-md-12 text-center img-preview">
                             {
-                                preview ? <img src={preview} alt="" /> : <span>Preview Image</span>
+                                preview ? <img src={preview} alt="" value={image}/> : <span>Preview Image</span>
                             }
 
 

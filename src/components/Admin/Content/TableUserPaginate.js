@@ -7,7 +7,7 @@ export default function TableUserPaginate(props) {
         handleDeleteUser,
         pageCount,
         fetchAllUserPaginate,
-        currentPage,
+       
         setCurrentPage
     } = props
     const handlePageClick = (event) => {

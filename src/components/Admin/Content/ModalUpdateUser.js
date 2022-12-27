@@ -16,7 +16,7 @@ const ModalUpdateUser = (props) => {
     const [image, setImage] = useState('')
     const [preview, setPreview] = useState('')
     const { show, setShow, dataUpdate, setDataUpdate, currentPage,
-        setCurrentPage } = props;
+         } = props;
 
     useEffect(() => {
         if (!_.isEmpty(dataUpdate)) {

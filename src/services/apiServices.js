@@ -12,10 +12,10 @@ const getAllUser = () => {
     return axios.get('/api/v1/participant/all')
 }
 const updateUser = (id, username, role, image) => {
-    
+
     const data = new FormData();
     data.append('id', id);
-    
+
 
     data.append('username', username);
     data.append('role', role);
@@ -29,6 +29,12 @@ const deleteUser = (userId) => {
 const getAllUserPaginate = (page, limit) => {
     return axios.get(`api/v1/participant?page=${page}&limit=${limit}`)
 }
+const postLogin = (email, password) => {
+    return axios.post(`api/v1/login`, { email, password })
+}
+const postRegister = (email, password) => {
+    return axios.post('api/v1/register', { email, password })
+}
 export {
-    postCreateUser, getAllUser, updateUser, deleteUser, getAllUserPaginate
+    postCreateUser, getAllUser, updateUser, deleteUser, getAllUserPaginate, postLogin, postRegister
 }
