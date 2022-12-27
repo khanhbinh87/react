@@ -38,7 +38,7 @@ function Header() {
                                     <button className='sign-up' onClick={() => navigate('/register')}>Sign up</button>
                                 </> :
                                 <>
-                                    <h3>Xin chao : {account}</h3>
+
                                     <NavDropdown title="Setting" id="basic-nav-dropdown">
                                         <NavDropdown.Item >Profile</NavDropdown.Item>
 
