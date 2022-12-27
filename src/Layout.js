@@ -11,6 +11,12 @@ import App from './App';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ListQuiz from './components/User/ListQuiz';
+import DetailQuiz from './components/User/DetailQuiz';
+const NotFound = () => {
+    return (
+        <div className='alert alert-danger text-center'> Not found data with your current URL</div>
+    )
+}
 export default function Layout() {
     return (
         <>
@@ -20,6 +26,8 @@ export default function Layout() {
                         <Route index element={<HomePage />} />
                         <Route path="user" element={<ListQuiz />} />
                     </Route>
+                    <Route path="/quiz/:id" element={<DetailQuiz />} />
+
                     <Route path="/admin" element={<Admin />} >
                         <Route index element={<Dashboard />} />
                         <Route path="manage-users" element={<ManageUser />} />
@@ -27,6 +35,7 @@ export default function Layout() {
                     <Route path="/login" element={<Login />} />
                     <Route path="/register" element={<Register />} />
 
+                <Route path="*" element={<NotFound />} />
                 </Routes>
                 <ToastContainer />
             </BrowserRouter>
