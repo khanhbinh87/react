@@ -19,7 +19,6 @@ export default function DetailQuiz() {
     }
     const handleNext = () => {
         if (dataQuiz && dataQuiz.length > index + 1) {
-
             setIndex(index + 1)
         }
     }
@@ -36,10 +35,12 @@ export default function DetailQuiz() {
                     let questionDes, image = null
 
                     value.forEach((item, index) => {
+
                         if (index === 0) {
                             questionDes = item.description;
                             image = item.image
                         }
+                        item.answers.isSelected = false
                         answers.push(item.answers)
                     })
 
@@ -50,6 +51,31 @@ export default function DetailQuiz() {
             setDataQuiz(data)
         }
 
+    }
+
+    const handleCheck = (answerId, questionId) => {
+        
+        let dataQuizClone = _.cloneDeep(dataQuiz)
+       
+        let question = dataQuizClone.find(item => +item.questionId === +questionId)
+        if (question && question.answers) {
+            let result = question.answers.map(item => {
+                if (+item.id === +answerId) {
+                    item.isSelected = !item.isSelected
+                }
+                return item
+            })
+            question.answers = result
+
+        }
+        let index = dataQuizClone.findIndex(item => {
+            return +item.questionId === +questionId
+        })
+       
+        if (index > -1) {
+            dataQuizClone[index] = question
+            setDataQuiz(dataQuizClone)
+        }
     }
     return (
         <div className='detail-quiz-container '>
@@ -64,12 +90,14 @@ export default function DetailQuiz() {
                     <Question
                         data={dataQuiz && dataQuiz.length > 0 ? dataQuiz[index] : []}
                         index={index}
+                        handleCheck={handleCheck}
                     />
                 </div>
                 <hr />
                 <div className='footer'>
                     <button className='btn btn-info' disabled={index <= 0} onClick={() => handlePrev()}>Prev</button>
-                    <button className='btn btn-primary'  onClick={() => handleNext()}>Next</button>
+                    <button className='btn btn-primary' onClick={() => handleNext()}>Next</button>
+                    {/* <button className='btn btn-success' onClick={() => handleFinish()}>Finish</button> */}
                 </div>
             </div>
             <div className='right-content'>coudntodung</div>
