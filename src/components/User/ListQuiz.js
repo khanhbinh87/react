@@ -2,7 +2,7 @@ import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { getQuizbyUser } from '../../services/apiServices'
 import './ListQuiz.scss'
-import {useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 export default function ListQuiz() {
     const [arrQuiz, setArrQuiz] = useState([])
     const navigate = useNavigate()
@@ -25,10 +25,10 @@ export default function ListQuiz() {
                             <div className="card-body">
                                 <h5 className="card-title">Quiz {index + 1}</h5>
                                 <p className="card-text">{quiz.description}</p>
-                                <button  
+                                <button
                                     className="btn btn-primary"
-                                    onClick={() => navigate(`/quiz/${quiz.id}`)}
-                                    >Start Now</button>
+                                    onClick={() => navigate(`/quiz/${quiz.id}`, { state: { quizTitle: quiz.description } })}
+                                >Start Now</button>
                             </div>
                         </div>)
                 })
