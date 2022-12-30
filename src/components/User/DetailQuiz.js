@@ -1,15 +1,19 @@
 import React, { useEffect, useState } from 'react'
 import { useParams, useLocation } from 'react-router-dom'
-import { getDataQuiz } from '../../services/apiServices'
+import { getDataQuiz, postSubmitQuiz } from '../../services/apiServices'
 import _ from 'lodash'
 import './DetailQuiz.scss'
 import Question from './Question'
+
+import ModalResult from './ModalResult'
 export default function DetailQuiz() {
     const params = useParams();
     const quizId = params.id
     const location = useLocation()
     const [dataQuiz, setDataQuiz] = useState([])
     const [index, setIndex] = useState(0)
+    const [showModalResult, setShowModalResult] = useState(false)
+    const [dataModalResult,setDataModalResult] = useState({})
     useEffect(() => {
         fetchQuestions()
     }, [quizId])
@@ -77,11 +81,11 @@ export default function DetailQuiz() {
             setDataQuiz(dataQuizClone)
         }
     }
-    const handleFinish = () => {
+    const handleFinish = async () => {
 
         let payload = {
-            quizId:+quizId,
-            answers:[]
+            quizId: +quizId,
+            answers: []
         }
         let answers = []
 
@@ -90,13 +94,13 @@ export default function DetailQuiz() {
                 let questionId = question.questionId;
                 let userAnswerId = []
                 question.answers.forEach(a => {
-                    if(a.isSelected){
+                    if (a.isSelected === true) {
                         userAnswerId.push(a.id)
                     }
                 })
-               
+
                 answers.push({
-                    questionId: questionId,
+                    questionId: +questionId,
                     userAnswerId: userAnswerId
 
                 })
@@ -105,6 +109,17 @@ export default function DetailQuiz() {
             payload.answers = answers
         }
         console.log(payload)
+        let res = await postSubmitQuiz(payload)
+        if (res && res.EC === 0) {
+            setDataModalResult({
+                countCorrect: res.DT.countCorrect,
+                countTotal: res.DT.countTotal,
+                quizData: res.DT.quizData
+            })
+            setShowModalResult(true)
+        } else {
+            alert('Something wrongs')
+        }
 
     }
     return (
@@ -131,6 +146,7 @@ export default function DetailQuiz() {
                 </div>
             </div>
             <div className='right-content'>coudntodung</div>
+            <ModalResult show={showModalResult} setShow={setShowModalResult} dataModalResult={dataModalResult}/>
         </div>
     )
 }
