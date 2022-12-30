@@ -54,9 +54,9 @@ export default function DetailQuiz() {
     }
 
     const handleCheck = (answerId, questionId) => {
-        
+
         let dataQuizClone = _.cloneDeep(dataQuiz)
-       
+
         let question = dataQuizClone.find(item => +item.questionId === +questionId)
         if (question && question.answers) {
             let result = question.answers.map(item => {
@@ -71,11 +71,41 @@ export default function DetailQuiz() {
         let index = dataQuizClone.findIndex(item => {
             return +item.questionId === +questionId
         })
-       
+
         if (index > -1) {
             dataQuizClone[index] = question
             setDataQuiz(dataQuizClone)
         }
+    }
+    const handleFinish = () => {
+
+        let payload = {
+            quizId:+quizId,
+            answers:[]
+        }
+        let answers = []
+
+        if (dataQuiz && dataQuiz.length > 0) {
+            dataQuiz.forEach(question => {
+                let questionId = question.questionId;
+                let userAnswerId = []
+                question.answers.forEach(a => {
+                    if(a.isSelected){
+                        userAnswerId.push(a.id)
+                    }
+                })
+               
+                answers.push({
+                    questionId: questionId,
+                    userAnswerId: userAnswerId
+
+                })
+
+            })
+            payload.answers = answers
+        }
+        console.log(payload)
+
     }
     return (
         <div className='detail-quiz-container '>
@@ -97,7 +127,7 @@ export default function DetailQuiz() {
                 <div className='footer'>
                     <button className='btn btn-info' disabled={index <= 0} onClick={() => handlePrev()}>Prev</button>
                     <button className='btn btn-primary' onClick={() => handleNext()}>Next</button>
-                    {/* <button className='btn btn-success' onClick={() => handleFinish()}>Finish</button> */}
+                    <button className='btn btn-success' onClick={() => handleFinish()}>Finish</button>
                 </div>
             </div>
             <div className='right-content'>coudntodung</div>
