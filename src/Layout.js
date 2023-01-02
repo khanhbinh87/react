@@ -1,6 +1,6 @@
 import React from 'react'
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import User from './components/User/User'
+
 import Admin from './components/Admin/Admin'
 import HomePage from './components/Home/HomePage';
 import Dashboard from './components/Admin/Content/Dashboard';
@@ -12,6 +12,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ListQuiz from './components/User/ListQuiz';
 import DetailQuiz from './components/User/DetailQuiz';
+import ManageQuiz from './components/Admin/Content/Quiz/ManageQuiz';
 const NotFound = () => {
     return (
         <div className='alert alert-danger text-center'> Not found data with your current URL</div>
@@ -31,6 +32,7 @@ export default function Layout() {
                     <Route path="/admin" element={<Admin />} >
                         <Route index element={<Dashboard />} />
                         <Route path="manage-users" element={<ManageUser />} />
+                        <Route path="manage-quizzes" element={<ManageQuiz />} />
                     </Route>
                     <Route path="/login" element={<Login />} />
                     <Route path="/register" element={<Register />} />

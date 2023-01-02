@@ -1,8 +1,7 @@
-import axios from 'axios'
 import React, { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { getQuizbyUser } from '../../services/apiServices'
 import './ListQuiz.scss'
-import { useNavigate } from 'react-router-dom'
 export default function ListQuiz() {
     const [arrQuiz, setArrQuiz] = useState([])
     const navigate = useNavigate()

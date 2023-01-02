@@ -14,13 +14,13 @@ function Header() {
         navigate('/login')
 
     }
-    let account = useSelector(state => state.user.account.username);
+
     let isAuthenticated = useSelector(state => state.user.isAuthenticated)
 
     return (
         <Navbar bg="light" expand="lg" className="nav-container">
             <Container>
-                <NavLink className="navbar-brand" to="/">KB</NavLink>
+                <NavLink className="navbar-brand" >KB</NavLink>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="me-auto">

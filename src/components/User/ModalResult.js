@@ -2,14 +2,14 @@
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 
-import { toast } from 'react-toastify';
+
 
 export default function ModalResult(props) {
 
     const { show, setShow, dataModalResult } = props;
     const handleClose = () => setShow(false);
     console.log(dataModalResult)
-   
+
 
     return (
 
@@ -26,7 +26,7 @@ export default function ModalResult(props) {
                     <Button variant="secondary" onClick={handleClose}>
                         Show answer
                     </Button>
-                    <Button variant="primary" onClick={ handleClose}>
+                    <Button variant="primary" onClick={handleClose}>
                         Close
                     </Button>
                 </Modal.Footer>

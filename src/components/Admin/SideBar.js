@@ -14,8 +14,10 @@ import sidebarBg from '../../assets/bg2.jpg';
 
 import { GiAbstract007 } from "react-icons/gi";
 import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 const SideBar = (props) => {
     const { collapsed, toggled, handleToggleSidebar } = props;
+    const navigate = useNavigate()
     return (
         <>
             <ProSidebar
@@ -38,7 +40,8 @@ const SideBar = (props) => {
                             whiteSpace: 'nowrap',
                         }}
                     >
-                        <GiAbstract007 size={'2em'} color={'00bfff'} /> KB
+                        <GiAbstract007 size={'2em'} color={'00bfff'} /> 
+                        <span onClick={() => navigate('/')} style={{cursor:'pointer'}}>KB</span>
                     </div>
                 </SidebarHeader>
 
@@ -62,7 +65,10 @@ const SideBar = (props) => {
                                 <Link to="/admin/manage-users" />
 
                             </MenuItem>
-                            <MenuItem> Quản lý  Quiz</MenuItem>
+                            <MenuItem> Quản lý  Quiz
+                                <Link to="/admin/manage-quizzes" />
+
+                            </MenuItem>
                             <MenuItem> Quản lý Câu Hỏi</MenuItem>
                         </SubMenu>
 
@@ -76,9 +82,9 @@ const SideBar = (props) => {
                             padding: '20px 24px',
                         }}
                     >
-                        <a
-                            href="https://github.com/azouaoui-med/react-pro-sidebar"
-                            target="_blank"
+                        <Link
+                            to="/"
+                            
                             className="sidebar-btn"
                             rel="noopener noreferrer"
                         >
@@ -86,7 +92,7 @@ const SideBar = (props) => {
                             <span style={{ whiteSpace: 'nowrap', textOverflow: 'ellipsis', overflow: 'hidden' }}>
                                 &#169;KB
                             </span>
-                        </a>
+                        </Link>
                     </div>
                 </SidebarFooter>
             </ProSidebar>
