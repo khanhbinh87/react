@@ -108,7 +108,7 @@ export default function DetailQuiz() {
             })
             payload.answers = answers
         }
-        console.log(payload)
+        
         let res = await postSubmitQuiz(payload)
         if (res && res.EC === 0) {
             setDataModalResult({

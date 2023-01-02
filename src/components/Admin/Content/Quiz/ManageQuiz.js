@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import './ManageQuiz.scss'
 import Select from 'react-select'
+import { toast } from 'react-toastify'
+import { postCreateNewQuiz } from '../../../../services/apiServices'
 
 const options = [
     { value: 'EASY', label: 'EASY' },
@@ -14,7 +16,25 @@ export default function ManageQuiz() {
     const [image, setImage] = useState(null)
 
     const handleChangeFile = (e) => {
+        if (e.target && e.target.files && e.target.files[0]) {
+            setImage(e.target.files[0])
 
+        }
+    }
+    const handleSubmitQuiz = async (e) => {
+        if (!name || !description) {
+            toast.error("Name/Des is required")
+            return;
+        }
+        let res = await postCreateNewQuiz(description, name, type?.value, image)
+        if (res && res.EC === 0) {
+            toast.success(res.EM)
+            setName('')
+            setDesciption('')
+            setImage(null)
+        } else {
+            toast.error(res.EM)
+        }
     }
     return (
         <div className='quiz-container'>
@@ -45,8 +65,10 @@ export default function ManageQuiz() {
                 <div className="form-floating mb-3">
 
                     <Select
-                        value={type}
+
                         options={options}
+                        defaultValue={type}
+                        onChange={setType}
                         placeholder={"Quiz type"}
                     />
                 </div>
@@ -54,6 +76,9 @@ export default function ManageQuiz() {
                     <label className='mb-1'>Upload Image</label>
                     <input type="file" className="form-control" onChange={(e) => handleChangeFile(e)} />
 
+                </div>
+                <div>
+                    <button className='btn btn-warning' onClick={(e) => handleSubmitQuiz(e)}>Save</button>
                 </div>
             </fieldset>
             <div className='list-detail'>
