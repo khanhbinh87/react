@@ -14,7 +14,8 @@ export default function TableQuiz() {
     }
     return (
         <>
-            <h3 className='my-3'>List Quizzes :</h3>
+            
+            <h3 className='my-1'>List Quizzes :</h3>
             <table className="table table-hover table-bordered">
                 <thead>
                     <tr>

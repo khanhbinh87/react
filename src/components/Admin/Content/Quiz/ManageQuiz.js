@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import './ManageQuiz.scss'
 import Select from 'react-select'
 import { toast } from 'react-toastify'
-import { postCreateNewQuiz } from '../../../../services/apiServices'
+import { postCreateNewQuiz, getAllQuizAdmin } from '../../../../services/apiServices'
 import Accordion from 'react-bootstrap/Accordion';
 import TableQuiz from './TableQuiz'
 const options = [
@@ -29,10 +29,12 @@ export default function ManageQuiz() {
         }
         let res = await postCreateNewQuiz(description, name, type?.value, image)
         if (res && res.EC === 0) {
+
             toast.success(res.EM)
             setName('')
             setDesciption('')
             setImage(null)
+
         } else {
             toast.error(res.EM)
         }
@@ -91,8 +93,7 @@ export default function ManageQuiz() {
                 </Accordion.Item>
 
             </Accordion>
-
-
+            <hr />
             <div className='list-detail'>
                 <TableQuiz />
             </div>
