@@ -35,7 +35,7 @@ export default function ModalDeleteUser(props) {
                 <Modal.Body>Are you sure to delete this user.email <b>{dataDelete && dataDelete.email ? dataDelete.email : ""}</b></Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={handleClose}>
-                        Close
+                        Cancel
                     </Button>
                     <Button variant="primary" onClick={() => handleSubmitDeleteUser()}>
                         Confirm

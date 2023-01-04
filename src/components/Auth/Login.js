@@ -22,6 +22,7 @@ export default function Login() {
             );
     };
     const handleLogin = async () => {
+       
         let isValidateEmail = validateEmail(email)
         if (!isValidateEmail) {
             toast.error('Invalid email')
@@ -33,6 +34,7 @@ export default function Login() {
         }
         setIsLoading(true)
         let data = await postLogin(email, password)
+        
         if (data && data.EC === 0) {
             toast.success(data.EM)
             dispatch(doLogin(data))

@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import './ManageQuiz.scss'
 import Select from 'react-select'
 import { toast } from 'react-toastify'
-import { postCreateNewQuiz, getAllQuizAdmin } from '../../../../services/apiServices'
+import { postCreateNewQuiz } from '../../../../services/apiServices'
 import Accordion from 'react-bootstrap/Accordion';
 import TableQuiz from './TableQuiz'
 const options = [

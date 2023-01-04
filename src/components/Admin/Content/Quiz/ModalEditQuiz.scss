@@ -1,0 +1,17 @@
+.image {
+        border              : 1px dashed gray;
+        display             : flex;
+        align-items         : center;
+        justify-content     : center;
+        padding             : 5px;
+
+        .img {
+                height         : 150px !important;
+                width          : 300px !important;
+                object-fit     : cover;
+        }
+}
+
+.label-upload {
+        cursor     : pointer;
+}

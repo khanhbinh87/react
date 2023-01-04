@@ -8,9 +8,7 @@ export default function ModalResult(props) {
 
     const { show, setShow, dataModalResult } = props;
     const handleClose = () => setShow(false);
-    console.log(dataModalResult)
-
-
+   
     return (
 
         <>
