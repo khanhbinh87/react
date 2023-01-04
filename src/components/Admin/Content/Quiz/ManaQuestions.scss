@@ -34,4 +34,14 @@
             width     : 60%;
         }
     }
+     .label-up {
+     margin-right     : 5px;
+     cursor           : pointer;
+     color            : #9068ff;
+     font-size        : 25px;
+
+     &:hover {
+         color     : #4400ff;
+     }
+ }
 }
