@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import './ManaQuestions.scss'
 import Select from 'react-select';
 
@@ -10,23 +10,16 @@ import Lightbox from "react-awesome-lightbox";
 
 import { v4 as uuidv4 } from 'uuid';
 import _ from 'lodash'
+import { getAllQuizAdmin, postCreateNewQuestionForQuiz, postCreateNewAnswerForQuiz } from '../../../../services/apiServices';
 
 export default function ManageQuestions() {
-    const options = [
-        { value: 'EASY', label: 'EASY' },
-        { value: 'MEDIUM', label: 'MEDIUM' },
-        { value: 'HARD', label: 'HARD' },
-    ];
-    const [selectedQuiz, setSelectedQuiz] = useState([
-        { value: 'EASY', label: 'EASY' },
-        { value: 'MEDIUM', label: 'MEDIUM' },
-        { value: 'HARD', label: 'HARD' },
-    ])
+
+    const [selectedQuiz, setSelectedQuiz] = useState({})
     const [questions, setQuestions] = useState(
         [
             {
                 id: uuidv4(),
-                desciption: '',
+                description: '',
                 imageFile: '',
                 imageName: '',
                 answers: [
@@ -45,27 +38,31 @@ export default function ManageQuestions() {
         title: '',
         url: ''
     })
-    const handlePreviewImage = (questionId) => {
-        let cloneAnswers = _.cloneDeep(questions)
-        
-        let index = cloneAnswers.findIndex(answer => answer.id === questionId)
-        
-        if(index > -1){
-            setDataImgPreview({
-                url: URL.createObjectURL(cloneAnswers[index].imageFile),
-                title: cloneAnswers[index].imageName,
+    const [listQuiz, setListQuiz] = useState([])
+    useEffect(() => {
+        fetchAllQuiz()
+    }, [])
+    const fetchAllQuiz = async () => {
+        let res = await getAllQuizAdmin();
+        if (res && res.EC === 0) {
+            setListQuiz(res.DT)
+            let newQuiz = res.DT.map(item => {
+                return {
+                    value: item.id,
+                    label: `${item.id} -${item.description}`
+                }
             })
-            setImagePreview(true)
-
+            setListQuiz(newQuiz)
         }
     }
+
     const handleAddRemoveQuestion = (type, questionId) => {
 
         if (type === 'ADD') {
 
             let newQuestions = {
                 id: uuidv4(),
-                desciption: '',
+                description: '',
                 imageFile: '',
                 imageName: '',
                 answers: [
@@ -115,8 +112,9 @@ export default function ManageQuestions() {
             let index = cloneQuestions.findIndex(question => question.id === questionId)
             if (index > -1) {
 
-                cloneQuestions[index].desciption = value
+                cloneQuestions[index].description = value
                 setQuestions(cloneQuestions)
+               
             }
         }
     }
@@ -153,9 +151,32 @@ export default function ManageQuestions() {
         }
 
     }
-    const handleSubmitQuestionForQuiz = () => {
+    const handleSubmitQuestionForQuiz = async () => {
 
-        console.log(questions)
+            console.log(questions)
+        await Promise.all(questions.map(async (question) => {
+            
+            let q = await postCreateNewQuestionForQuiz(+selectedQuiz.value, question.description, question.imageFile)
+            // await Promise.all(question.answers.map(async (answer) => {
+            //     await postCreateNewAnswerForQuiz(answer.description, answer.isCorrect, q.DT.id)
+            // }))
+            console.log(q)
+        }))
+        
+    }
+    const handlePreviewImage = (questionId) => {
+        let cloneAnswers = _.cloneDeep(questions)
+
+        let index = cloneAnswers.findIndex(answer => answer.id === questionId)
+
+        if (index > -1) {
+            setDataImgPreview({
+                url: URL.createObjectURL(cloneAnswers[index].imageFile),
+                title: cloneAnswers[index].imageName,
+            })
+            setImagePreview(true)
+
+        }
     }
 
     return (
@@ -167,7 +188,7 @@ export default function ManageQuestions() {
                     <Select
                         defaultValue={selectedQuiz}
                         onChange={setSelectedQuiz}
-                        options={options}
+                        options={listQuiz}
                     />
                 </div>
                 <div className='my-3'>
@@ -183,7 +204,7 @@ export default function ManageQuestions() {
                                         <input type="text"
                                             className="form-control"
                                             placeholder={`${index + 1}`}
-                                            value={question.desciption}
+                                            value={question.description}
                                             onChange={(e) => handleOnchange('QUESTION', question.id, e.target.value)}
                                         />
                                         <label >Question {index + 1} 's description</label>
@@ -248,7 +269,7 @@ export default function ManageQuestions() {
 
                             </div>
                         )
-                        
+
                     })
                 }
                 {
@@ -259,7 +280,7 @@ export default function ManageQuestions() {
                 }
             </div>
             {
-                imagePreview && <Lightbox  zoomStep="0.6" image={dataImgPreview.url} title={dataImgPreview.title} onClose={() => setImagePreview(false)} />
+                imagePreview && <Lightbox zoomStep="0.6" image={dataImgPreview.url} title={dataImgPreview.title} onClose={() => setImagePreview(false)} />
             }
         </div>
     )
