@@ -6,21 +6,22 @@ import { AiFillPlusCircle } from 'react-icons/ai'
 import { FiMinusCircle } from 'react-icons/fi'
 import { AiOutlinePlusCircle } from 'react-icons/ai'
 import { RiImageAddFill } from 'react-icons/ri'
-
-import { BsFillPatchPlusFill, BsPatchMinusFill } from 'react-icons/bs'
-import { AiFillPlusSquare, AiOutlineMinusCircle } from 'react-icons/ai'
-
+import Lightbox from "react-awesome-lightbox";
 
 import { v4 as uuidv4 } from 'uuid';
 import _ from 'lodash'
 
 export default function ManageQuestions() {
     const options = [
-        { value: 'chocolate', label: 'Chocolate' },
-        { value: 'strawberry', label: 'Strawberry' },
-        { value: 'vanilla', label: 'Vanilla' },
+        { value: 'EASY', label: 'EASY' },
+        { value: 'MEDIUM', label: 'MEDIUM' },
+        { value: 'HARD', label: 'HARD' },
     ];
-    const [selectedQuiz, setSelectedQuiz] = useState({})
+    const [selectedQuiz, setSelectedQuiz] = useState([
+        { value: 'EASY', label: 'EASY' },
+        { value: 'MEDIUM', label: 'MEDIUM' },
+        { value: 'HARD', label: 'HARD' },
+    ])
     const [questions, setQuestions] = useState(
         [
             {
@@ -38,6 +39,26 @@ export default function ManageQuestions() {
             }
         ]
     )
+
+    const [imagePreview, setImagePreview] = useState(false)
+    const [dataImgPreview, setDataImgPreview] = useState({
+        title: '',
+        url: ''
+    })
+    const handlePreviewImage = (questionId) => {
+        let cloneAnswers = _.cloneDeep(questions)
+        
+        let index = cloneAnswers.findIndex(answer => answer.id === questionId)
+        
+        if(index > -1){
+            setDataImgPreview({
+                url: URL.createObjectURL(cloneAnswers[index].imageFile),
+                title: cloneAnswers[index].imageName,
+            })
+            setImagePreview(true)
+
+        }
+    }
     const handleAddRemoveQuestion = (type, questionId) => {
 
         if (type === 'ADD') {
@@ -139,7 +160,7 @@ export default function ManageQuestions() {
 
     return (
         <div className='question-container'>
-            <div className='title'>Manage quetion</div>
+            <div className='title'>Manage question</div>
             <div className='add-new-question'>
                 <div className='col-6 form-group'>
                     <label>Select quiz :</label>
@@ -178,7 +199,13 @@ export default function ManageQuestions() {
                                             onChange={(e) => handleOnchangeFileQuestion(question.id, e)}
 
                                         />
-                                        <span> {question.imageName ? question.imageName : '0 file is update'}</span>
+                                        <span style={{ cursor: 'pointer' }}> {question.imageName ?
+                                            <span onClick={() => {
+                                                handlePreviewImage(question.id)
+
+                                            }}>
+                                                {question.imageName}
+                                            </span> : '0 file is update'}</span>
                                     </div>
 
                                     <div className='add-questions'>
@@ -218,20 +245,22 @@ export default function ManageQuestions() {
                                         )
                                     })
                                 }
-                                {
-                                    questions && questions.length > 0 &&
-                                    <div>
-                                        <button className='btn btn-warning' onClick={() => handleSubmitQuestionForQuiz()}>Save questions</button>
-                                    </div>
-                                }
 
                             </div>
                         )
-
+                        
                     })
                 }
-
+                {
+                    questions && questions.length > 0 &&
+                    <div>
+                        <button className='btn btn-warning' onClick={() => handleSubmitQuestionForQuiz()}>Save questions</button>
+                    </div>
+                }
             </div>
+            {
+                imagePreview && <Lightbox  zoomStep="0.6" image={dataImgPreview.url} title={dataImgPreview.title} onClose={() => setImagePreview(false)} />
+            }
         </div>
     )
 }
