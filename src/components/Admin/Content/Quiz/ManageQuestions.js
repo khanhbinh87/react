@@ -11,27 +11,28 @@ import Lightbox from "react-awesome-lightbox";
 import { v4 as uuidv4 } from 'uuid';
 import _ from 'lodash'
 import { getAllQuizAdmin, postCreateNewQuestionForQuiz, postCreateNewAnswerForQuiz } from '../../../../services/apiServices';
+import { toast } from 'react-toastify';
 
 export default function ManageQuestions() {
 
     const [selectedQuiz, setSelectedQuiz] = useState({})
-    const [questions, setQuestions] = useState(
-        [
-            {
-                id: uuidv4(),
-                description: '',
-                imageFile: '',
-                imageName: '',
-                answers: [
-                    {
-                        id: uuidv4(),
-                        description: '',
-                        isCorrect: false
-                    }
-                ]
-            }
-        ]
-    )
+    const initQuestion = [
+        {
+            id: uuidv4(),
+            description: '',
+            imageFile: '',
+            imageName: '',
+            answers: [
+                {
+                    id: uuidv4(),
+                    description: '',
+                    isCorrect: false
+                }
+            ]
+        }
+    ]
+    const [questions, setQuestions] = useState(initQuestion)
+
 
     const [imagePreview, setImagePreview] = useState(false)
     const [dataImgPreview, setDataImgPreview] = useState({
@@ -110,11 +111,12 @@ export default function ManageQuestions() {
         if (type === 'QUESTION') {
 
             let index = cloneQuestions.findIndex(question => question.id === questionId)
+
             if (index > -1) {
 
                 cloneQuestions[index].description = value
                 setQuestions(cloneQuestions)
-               
+
             }
         }
     }
@@ -135,7 +137,7 @@ export default function ManageQuestions() {
         let cloneQuestions = _.cloneDeep(questions)
         let index = cloneQuestions.findIndex(question => question.id === questionId)
         if (index > -1) {
-            cloneQuestions[index].answers = cloneQuestions[index].answers.map((answer, index) => {
+            cloneQuestions[index].answers = cloneQuestions[index].answers.map((answer) => {
                 if (answer.id === answerId) {
                     if (type === 'CHECKBOX') {
                         answer.isCorrect = value
@@ -152,17 +154,68 @@ export default function ManageQuestions() {
 
     }
     const handleSubmitQuestionForQuiz = async () => {
+        //validate quiz
+        if (_.isEmpty(selectedQuiz)) {
+            toast.error('Please choose a quiz')
+        }
 
-            console.log(questions)
-        await Promise.all(questions.map(async (question) => {
-            
-            let q = await postCreateNewQuestionForQuiz(+selectedQuiz.value, question.description, question.imageFile)
-            // await Promise.all(question.answers.map(async (answer) => {
-            //     await postCreateNewAnswerForQuiz(answer.description, answer.isCorrect, q.DT.id)
-            // }))
-            console.log(q)
-        }))
+        //validate answer
+        let validAnswer = true;
+        let indexQ = 0, indexA = 0;
+        for (let i = 0; i < questions.length; i++) {
+            for (let j = 0; j < questions[i].answers.length; j++) {
+                if (!questions[i].answers[j].description) {
+                    validAnswer = false;
+                    indexA = j
+                    break;
+                }
+            }
+            indexQ = i;
+            if (validAnswer === false) break;
+        }
+        if(validAnswer  === false){
+            toast.error(`Not empty Answer ${indexA + 1} at Question ${indexQ + 1}`)
+            return ;
+        }
+
+        //validate question
+
+        let validAQuestion = true;
+        let indexQ1 = 0;
+
+        for (let i = 0; i < questions.length; i++) {
+           
+                if (!questions[i].description) {
+                    validAQuestion = false;
+                    indexQ1 = i;
+                    break;
+                }
+        }
+        if (validAQuestion === false) {
+            toast.error(`Not empty description for Question ${indexQ1 + 1}`)
+            return 
+        }
+
+
+        for(const question of questions){
+            const q = await postCreateNewQuestionForQuiz(+selectedQuiz.value, question.description, question.imageFile)
+            for (const answer of question.answers){
+
+                    await postCreateNewAnswerForQuiz(answer.description, answer.isCorrect, q.DT.id)
+            }
+        }
+        toast.success('Create question and answer success')
+        setQuestions(initQuestion)
+        // await Promise.all(questions.map(async (question) => {
+
+        //     const q = await postCreateNewQuestionForQuiz(+selectedQuiz.value, question.description, question.imageFile)
+
         
+        //     await Promise.all(question.answers.map(async (answer) => {
+            //         await postCreateNewAnswerForQuiz(answer.description, answer.isCorrect, q.DT.id)
+        //     }))
+        // }))
+
     }
     const handlePreviewImage = (questionId) => {
         let cloneAnswers = _.cloneDeep(questions)
@@ -201,7 +254,7 @@ export default function ManageQuestions() {
                                 <div className='questions' >
 
                                     <div className="form-floating mb-3 col-6">
-                                        <input type="text"
+                                        <input type={"text"}
                                             className="form-control"
                                             placeholder={`${index + 1}`}
                                             value={question.description}
@@ -226,7 +279,7 @@ export default function ManageQuestions() {
 
                                             }}>
                                                 {question.imageName}
-                                            </span> : '0 file is update'}</span>
+                                            </span> : '0 file is upload'}</span>
                                     </div>
 
                                     <div className='add-questions'>
@@ -244,11 +297,13 @@ export default function ManageQuestions() {
                                                 <input
                                                     type={"checkbox"}
                                                     className="form-check-input"
+                                                    checked={answer.isCorrect}
                                                     onChange={(e) => handleAnswerQuestion('CHECKBOX', question.id, answer.id, e.target.checked)}
                                                 />
                                                 <div className="form-floating answer">
                                                     <input
                                                         type="text"
+                                                        value={answer.description}
                                                         className="form-control"
                                                         placeholder={`Answer ${index + 1}`}
                                                         onChange={(e) => handleAnswerQuestion('INPUT', question.id, answer.id, e.target.value)}
@@ -257,7 +312,8 @@ export default function ManageQuestions() {
                                                     <label >{`Answer ${index + 1}`} </label>
                                                 </div>
                                                 <div className='add-questions'>
-                                                    <span className='add' onClick={() => handleAddRemoveAnswer('ADD', question.id)}><AiOutlinePlusCircle /></span>
+                                                    <span className='add'
+                                                        onClick={() => handleAddRemoveAnswer('ADD', question.id)}><AiOutlinePlusCircle /></span>
                                                     {
                                                         question.answers.length > 1 && <span className='remove' onClick={() => handleAddRemoveAnswer('REMOVE', question.id, answer.id)}><FiMinusCircle /></span>
                                                     }

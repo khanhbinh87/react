@@ -40,32 +40,32 @@ const getQuizbyUser = () => {
 
 }
 const getDataQuiz = (quizId) => {
-    
+
     return axios.get(`api/v1/questions-by-quiz?quizId=${quizId}`)
 
 }
 const postSubmitQuiz = (data) => {
-   
-    
+
+
     return axios.post('api/v1/quiz-submit', { ...data })
 }
-const postCreateNewQuiz = (description, name, difficulty, quizImage) =>{
+const postCreateNewQuiz = (description, name, difficulty, quizImage) => {
     const data = new FormData();
     data.append('description', description);
     data.append('name', name);
     data.append('difficulty', difficulty);
     data.append('quizImage', quizImage);
-    return axios.post('api/v1/quiz',data)
+    return axios.post('api/v1/quiz', data)
 }
 
-const getAllQuizAdmin = () =>{
+const getAllQuizAdmin = () => {
     return axios.get('api/v1/quiz/all')
 
 }
-const deleteQuiz = (quizId)=>{
+const deleteQuiz = (quizId) => {
     return axios.delete(`api/v1/quiz/${quizId}`)
 }
-const updateQuiz = (id,description,name,difficulty,quizImage)=> {
+const updateQuiz = (id, description, name, difficulty, quizImage) => {
     const data = new FormData();
     data.append('id', id);
     data.append('description', description);
@@ -74,18 +74,19 @@ const updateQuiz = (id,description,name,difficulty,quizImage)=> {
     data.append('quizImage', quizImage);
     return axios.put('api/v1/quiz', data)
 }
-const postCreateNewQuestionForQuiz = (quiz_id, description, image)=>{
+const postCreateNewQuestionForQuiz = (quiz_id, description, questionImage) => {
+    console.log(quiz_id, description, questionImage)
     const data = new FormData();
-    data.append('quiz_id,', quiz_id,);
+    data.append('quiz_id', quiz_id,);
     data.append('description', description);
-    data.append('questionImage', image);
-    
+    data.append('questionImage', questionImage);
+
     return axios.post('api/v1/question', data)
 }
 const postCreateNewAnswerForQuiz = (description, correct_answer, question_id) => {
-   
 
-    return axios.post('api/v1/answer', {description,correct_answer,question_id})
+
+    return axios.post('api/v1/answer', { description, correct_answer, question_id })
 }
 export {
     postCreateUser, getAllUser, updateUser, deleteUser, getAllUserPaginate, postLogin, postRegister, getQuizbyUser, getDataQuiz,
