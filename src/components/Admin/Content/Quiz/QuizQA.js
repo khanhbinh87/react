@@ -13,7 +13,7 @@ import _ from 'lodash'
 import { getAllQuizAdmin, postCreateNewQuestionForQuiz, postCreateNewAnswerForQuiz } from '../../../../services/apiServices';
 import { toast } from 'react-toastify';
 
-export default function ManageQuestions() {
+export default function QuizQA() {
 
     const [selectedQuiz, setSelectedQuiz] = useState({})
     const initQuestion = [
@@ -173,9 +173,9 @@ export default function ManageQuestions() {
             indexQ = i;
             if (validAnswer === false) break;
         }
-        if(validAnswer  === false){
+        if (validAnswer === false) {
             toast.error(`Not empty Answer ${indexA + 1} at Question ${indexQ + 1}`)
-            return ;
+            return;
         }
 
         //validate question
@@ -184,37 +184,29 @@ export default function ManageQuestions() {
         let indexQ1 = 0;
 
         for (let i = 0; i < questions.length; i++) {
-           
-                if (!questions[i].description) {
-                    validAQuestion = false;
-                    indexQ1 = i;
-                    break;
-                }
+
+            if (!questions[i].description) {
+                validAQuestion = false;
+                indexQ1 = i;
+                break;
+            }
         }
         if (validAQuestion === false) {
             toast.error(`Not empty description for Question ${indexQ1 + 1}`)
-            return 
+            return
         }
 
 
-        for(const question of questions){
+        for (const question of questions) {
             const q = await postCreateNewQuestionForQuiz(+selectedQuiz.value, question.description, question.imageFile)
-            for (const answer of question.answers){
+            for (const answer of question.answers) {
 
-                    await postCreateNewAnswerForQuiz(answer.description, answer.isCorrect, q.DT.id)
+                await postCreateNewAnswerForQuiz(answer.description, answer.isCorrect, q.DT.id)
             }
         }
         toast.success('Create question and answer success')
         setQuestions(initQuestion)
-        // await Promise.all(questions.map(async (question) => {
-
-        //     const q = await postCreateNewQuestionForQuiz(+selectedQuiz.value, question.description, question.imageFile)
-
-        
-        //     await Promise.all(question.answers.map(async (answer) => {
-            //         await postCreateNewAnswerForQuiz(answer.description, answer.isCorrect, q.DT.id)
-        //     }))
-        // }))
+       
 
     }
     const handlePreviewImage = (questionId) => {
@@ -234,7 +226,7 @@ export default function ManageQuestions() {
 
     return (
         <div className='question-container'>
-            <div className='title'>Manage question</div>
+            <div className='title'>Update Q/A </div>
             <div className='add-new-question'>
                 <div className='col-6 form-group'>
                     <label>Select quiz :</label>

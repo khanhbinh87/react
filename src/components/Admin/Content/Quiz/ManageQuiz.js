@@ -5,6 +5,8 @@ import { toast } from 'react-toastify'
 import { postCreateNewQuiz } from '../../../../services/apiServices'
 import Accordion from 'react-bootstrap/Accordion';
 import TableQuiz from './TableQuiz'
+import QuizQA from './QuizQA'
+import AssignQuiz from './AssignQuiz'
 const options = [
     { value: 'EASY', label: 'EASY' },
     { value: 'MEDIUM', label: 'MEDIUM' },
@@ -89,14 +91,27 @@ export default function ManageQuiz() {
                         <div>
                             <button className='btn btn-warning' onClick={(e) => handleSubmitQuiz(e)}>Save</button>
                         </div>
+                        <div className='list-detail'>
+                            <TableQuiz />
+                        </div>
+                    </Accordion.Body>
+                </Accordion.Item>
+                <Accordion.Item eventKey="1">
+                    <Accordion.Header>Update Q/A Quizzes</Accordion.Header>
+                    <Accordion.Body>
+                       <QuizQA />
+                    </Accordion.Body>
+                </Accordion.Item>
+                <Accordion.Item eventKey="2">
+                    <Accordion.Header>Assign to Users</Accordion.Header>
+                    <Accordion.Body>
+                       <AssignQuiz />
                     </Accordion.Body>
                 </Accordion.Item>
 
             </Accordion>
-            <hr />
-            <div className='list-detail'>
-                <TableQuiz />
-            </div>
+
+
         </div>
     )
 }
