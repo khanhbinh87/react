@@ -11,6 +11,7 @@ export default function ListQuiz() {
     }, [])
     const getQuizData = async () => {
         let data = await getQuizbyUser();
+       
         if (data && data.EC === 0)
             setArrQuiz(data.DT)
     }

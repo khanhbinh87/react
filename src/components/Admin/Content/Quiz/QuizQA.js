@@ -10,7 +10,7 @@ import Lightbox from "react-awesome-lightbox";
 
 import { v4 as uuidv4 } from 'uuid';
 import _ from 'lodash'
-import { getAllQuizAdmin, postCreateNewQuestionForQuiz, postCreateNewAnswerForQuiz, getQuizQA } from '../../../../services/apiServices';
+import { getAllQuizAdmin, getQuizQA, upsertQuizQA } from '../../../../services/apiServices';
 import { toast } from 'react-toastify';
 
 export default function QuizQA() {
@@ -53,6 +53,7 @@ export default function QuizQA() {
     }, [selectedQuiz])
     const fetQuizWithAQ = async () => {
         let res = await getQuizQA(selectedQuiz.value)
+        
         if (res && res.EC === 0) {
             //convert base 64 to file object
 
@@ -66,15 +67,15 @@ export default function QuizQA() {
             let newAQ = []
             for (let i = 0; i < res.DT.qa.length; i++) {
                 let q = res.DT.qa[i]
-                
+
                 if (q.imageFile) {
                     q.imageName = `Question- ${q.id}.png`
                     q.imageFile = await urltoFile(`data:image/png;base64,${q.imageFile}`, `{Question- ${q.id}.png}`, 'image/png')
                 }
-              
+
                 newAQ.push(q)
             }
-                console.log(newAQ)
+
             setQuestions(newAQ)
         }
 
@@ -232,16 +233,30 @@ export default function QuizQA() {
             return
         }
 
+        //convert file to base64
+        const toBase64 = file => new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = () => resolve(reader.result);
+            reader.onerror = error => reject(error);
+        });
 
-        for (const question of questions) {
-            const q = await postCreateNewQuestionForQuiz(+selectedQuiz.value, question.description, question.imageFile)
-            for (const answer of question.answers) {
-
-                await postCreateNewAnswerForQuiz(answer.description, answer.isCorrect, q.DT.id)
+        let cloneQuestions = _.cloneDeep(questions)
+        for (let i = 0; i < cloneQuestions.length; i++) {
+            if (cloneQuestions[i].imageFile) {
+                cloneQuestions[i].imageFile = await toBase64(cloneQuestions[i].imageFile)
             }
         }
-        toast.success('Create question and answer success')
-        setQuestions(initQuestion)
+        let res = await upsertQuizQA({
+            quizId: selectedQuiz.value,
+            questions: cloneQuestions
+        })
+        if (res && res.EC === 0) {
+            toast.success(res.EM)
+            fetQuizWithAQ()
+
+        }
+
 
 
     }

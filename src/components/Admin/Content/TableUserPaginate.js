@@ -14,8 +14,7 @@ export default function TableUserPaginate(props) {
         fetchAllUserPaginate(+event.selected + 1)
         setCurrentPage(+event.selected + 1)
 
-        // console.log('pagecout', pageCount)
-        // console.log(`User requested page number ${+event.selected + 1}`);
+      
     };
     return (
         <>

@@ -1,7 +1,7 @@
 import { Outlet } from "react-router-dom";
 import Header from "./components/Header/Header";
 import './App.scss'
-import { PerfectScrollbar } from 'react-perfect-scrollbar'
+import PerfectScrollbar from 'react-perfect-scrollbar'
 export default function App() {
 
 

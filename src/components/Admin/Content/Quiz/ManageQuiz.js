@@ -39,6 +39,7 @@ export default function ManageQuiz() {
             return;
         }
         let res = await postCreateNewQuiz(description, name, type?.value, image)
+       
         if (res && res.EC === 0) {
 
             toast.success(res.EM)
