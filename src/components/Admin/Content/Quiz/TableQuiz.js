@@ -3,35 +3,27 @@ import { getAllQuizAdmin } from '../../../../services/apiServices'
 import ModalDeleteQuiz from './ModalDeleteQuiz'
 import ModalEditQuiz from './ModalEditQuiz'
 
-export default function TableQuiz() {
+export default function TableQuiz(props) {
     const [show, setShow] = useState(false)
     const [showUpdate, setShowUpdate] = useState(false)
     const [dataDelete, setDataDelete] = useState('')
     const [dataUpdate, setDataUpdate] = useState('')
-    const [listQuiz, setListQuiz] = useState([])
-    useEffect(() => {
-        fetchAllQuiz()
-    }, [])
-    const fetchAllQuiz = async () => {
-        let res = await getAllQuizAdmin();
-        if (res && res.EC === 0) {
-            setListQuiz(res.DT)
-        }
-    }
-    const handleEditQuiz = (item) => { 
+    const { listQuiz, fetchAllQuiz } = props
+  
+    const handleEditQuiz = (item) => {
         setShowUpdate(true)
         setDataUpdate(item)
     }
-    const handleDeleteQuiz = async(item) => {
+    const handleDeleteQuiz = async (item) => {
         setDataDelete(item)
         setShow(true)
-        
+
     }
     return (
         <>
 
             <h3 className='my-1'>List Quizzes :</h3>
-        
+
             <table className="table table-hover table-bordered">
                 <thead>
                     <tr>
@@ -43,7 +35,7 @@ export default function TableQuiz() {
                     </tr>
                 </thead>
                 <tbody>
-                   
+
                     {
                         listQuiz && listQuiz.length > 0 && listQuiz.map((item, index) => {
                             return (
@@ -60,7 +52,7 @@ export default function TableQuiz() {
                             )
                         })
                     }
-                    
+
                 </tbody>
             </table>
             <ModalDeleteQuiz
@@ -69,7 +61,7 @@ export default function TableQuiz() {
                 dataDelete={dataDelete}
                 fetchAllQuiz={fetchAllQuiz}
             />
-            <ModalEditQuiz 
+            <ModalEditQuiz
                 show={showUpdate}
                 setShow={setShowUpdate}
                 dataUpdate={dataUpdate}

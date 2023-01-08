@@ -10,12 +10,14 @@ import Lightbox from "react-awesome-lightbox";
 
 import { v4 as uuidv4 } from 'uuid';
 import _ from 'lodash'
-import { getAllQuizAdmin, postCreateNewQuestionForQuiz, postCreateNewAnswerForQuiz } from '../../../../services/apiServices';
+import { getAllQuizAdmin, postCreateNewQuestionForQuiz, postCreateNewAnswerForQuiz, getQuizQA } from '../../../../services/apiServices';
 import { toast } from 'react-toastify';
 
 export default function QuizQA() {
 
     const [selectedQuiz, setSelectedQuiz] = useState({})
+
+
     const initQuestion = [
         {
             id: uuidv4(),
@@ -43,6 +45,40 @@ export default function QuizQA() {
     useEffect(() => {
         fetchAllQuiz()
     }, [])
+
+    useEffect(() => {
+        if (selectedQuiz && selectedQuiz.value) {
+            fetQuizWithAQ()
+        }
+    }, [selectedQuiz])
+    const fetQuizWithAQ = async () => {
+        let res = await getQuizQA(selectedQuiz.value)
+        if (res && res.EC === 0) {
+            //convert base 64 to file object
+
+            //return a promise that resolves with a File instance
+            function urltoFile(url, filename, mimeType) {
+                return (fetch(url)
+                    .then(function (res) { return res.arrayBuffer(); })
+                    .then(function (buf) { return new File([buf], filename, { type: mimeType }); })
+                );
+            }
+            let newAQ = []
+            for (let i = 0; i < res.DT.qa.length; i++) {
+                let q = res.DT.qa[i]
+                
+                if (q.imageFile) {
+                    q.imageName = `Question- ${q.id}.png`
+                    q.imageFile = await urltoFile(`data:image/png;base64,${q.imageFile}`, `{Question- ${q.id}.png}`, 'image/png')
+                }
+              
+                newAQ.push(q)
+            }
+                console.log(newAQ)
+            setQuestions(newAQ)
+        }
+
+    }
     const fetchAllQuiz = async () => {
         let res = await getAllQuizAdmin();
         if (res && res.EC === 0) {
@@ -206,7 +242,7 @@ export default function QuizQA() {
         }
         toast.success('Create question and answer success')
         setQuestions(initQuestion)
-       
+
 
     }
     const handlePreviewImage = (questionId) => {

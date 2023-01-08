@@ -1,12 +1,14 @@
 .list-quiz-container {
-    display             : flex;
-    justify-content     : space-between;
-    gap                 : 40px;
+    display                     : flex;
+    // justify-content     : space-between;
+    
+    flex-wrap                   : wrap;
 
     .card {
-        width       : calc(100% / 3);
-        display     : flex;
+        width                 : calc((100% / 3) - 20px);
+        display               : flex;
+        margin :10px;
         // flex-direction: column;
-       
+
     }
 }

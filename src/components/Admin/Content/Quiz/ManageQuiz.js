@@ -1,8 +1,8 @@
-import React, { useState } from 'react'
+import React, { useState ,useEffect} from 'react'
 import './ManageQuiz.scss'
 import Select from 'react-select'
 import { toast } from 'react-toastify'
-import { postCreateNewQuiz } from '../../../../services/apiServices'
+import { postCreateNewQuiz, getAllQuizAdmin } from '../../../../services/apiServices'
 import Accordion from 'react-bootstrap/Accordion';
 import TableQuiz from './TableQuiz'
 import QuizQA from './QuizQA'
@@ -17,7 +17,16 @@ export default function ManageQuiz() {
     const [description, setDesciption] = useState('')
     const [type, setType] = useState('EASY')
     const [image, setImage] = useState(null)
-
+    const [listQuiz, setListQuiz] = useState([])
+    useEffect(() => {
+        fetchAllQuiz()
+    }, [])
+    const fetchAllQuiz = async () => {
+        let res = await getAllQuizAdmin();
+        if (res && res.EC === 0) {
+            setListQuiz(res.DT)
+        }
+    }
     const handleChangeFile = (e) => {
         if (e.target && e.target.files && e.target.files[0]) {
             setImage(e.target.files[0])
@@ -36,7 +45,7 @@ export default function ManageQuiz() {
             setName('')
             setDesciption('')
             setImage(null)
-
+            fetchAllQuiz()
         } else {
             toast.error(res.EM)
         }
@@ -92,7 +101,7 @@ export default function ManageQuiz() {
                             <button className='btn btn-warning' onClick={(e) => handleSubmitQuiz(e)}>Save</button>
                         </div>
                         <div className='list-detail'>
-                            <TableQuiz />
+                            <TableQuiz listQuiz={listQuiz}  fetchAllQuiz={fetchAllQuiz}/>
                         </div>
                     </Accordion.Body>
                 </Accordion.Item>
