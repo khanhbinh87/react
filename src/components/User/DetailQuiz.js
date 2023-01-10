@@ -6,6 +6,7 @@ import './DetailQuiz.scss'
 import Question from './Question'
 
 import ModalResult from './ModalResult'
+import Timer from './Timer/Timer'
 export default function DetailQuiz() {
     const params = useParams();
     const quizId = params.id
@@ -145,7 +146,9 @@ export default function DetailQuiz() {
                     <button className='btn btn-success' onClick={() => handleFinish()}>Finish</button>
                 </div>
             </div>
-            <div className='right-content'>coudntodung</div>
+            <div className='right-content'>
+                <Timer dataQuiz={dataQuiz} handleFinish={handleFinish}/>
+            </div>
             <ModalResult show={showModalResult} setShow={setShowModalResult} dataModalResult={dataModalResult}/>
         </div>
     )
