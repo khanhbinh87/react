@@ -7,6 +7,7 @@ import { useDispatch } from 'react-redux';
 import { doLogin } from '../../redux/action/userAction';
 
 import { ImSpinner10 } from 'react-icons/im'
+import Language from '../Header/Language';
 
 export default function Login() {
     const [email, setEmail] = useState("")
@@ -22,7 +23,7 @@ export default function Login() {
             );
     };
     const handleLogin = async () => {
-       
+
         let isValidateEmail = validateEmail(email)
         if (!isValidateEmail) {
             toast.error('Invalid email')
@@ -34,7 +35,7 @@ export default function Login() {
         }
         setIsLoading(true)
         let data = await postLogin(email, password)
-        
+
         if (data && data.EC === 0) {
             toast.success(data.EM)
             dispatch(doLogin(data))
@@ -49,9 +50,9 @@ export default function Login() {
         }
 
     }
-    const handleOnKeyDown =(e)=>{
-       
-        if(e && e.key === "Enter"){
+    const handleOnKeyDown = (e) => {
+
+        if (e && e.key === "Enter") {
             handleLogin()
         }
     }
@@ -63,6 +64,8 @@ export default function Login() {
                     className='btn btn-secondary mx-2'
                     onClick={() => navigate('/register')}
                 >Sign up</button>
+                <Language />
+
             </div>
 
             <div className='title'>

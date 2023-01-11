@@ -35,6 +35,12 @@
     }
 
 }
+.languages{
+
+    .dropdown-toggle::after{
+        display: none;
+    }
+}
 .navbar-nav{
     align-items: center;
 }
