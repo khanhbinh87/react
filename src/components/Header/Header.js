@@ -5,20 +5,29 @@ import NavDropdown from 'react-bootstrap/NavDropdown'
 import { NavLink, useNavigate } from 'react-router-dom'
 import './Header.scss'
 
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
+import { logOut } from '../../services/apiServices';
+import { toast } from 'react-toastify';
+import { doLogout } from '../../redux/action/userAction';
 
 function Header() {
     const navigate = useNavigate();
-
-    let isAuthenticated = useSelector(state => state.user.account)
-    console.log(isAuthenticated)
+    let dispatch = useDispatch();
+    let isAuthenticated = useSelector(state => state.user.isAuthenticated)
+    let account = useSelector(state => state.user.account)
 
     const handleLogin = () => {
         navigate('/login')
 
     }
-    const handleLogout = () => {
-        
+    const handleLogout = async () => {
+        let res = await logOut(account.email, account.refresh_token)
+        if (res && res.EC === 0) {
+            dispatch(doLogout())
+            toast.success(res.EM)
+        } else {
+            toast.error(res.EM)
+        }
     }
 
 
@@ -45,6 +54,9 @@ function Header() {
                                 </> :
                                 <>
 
+                                    {
+                                        isAuthenticated && <div> Xin chao : <b>{`${account.username}`}</b></div>
+                                    }
                                     <NavDropdown title="Setting" id="basic-nav-dropdown">
                                         <NavDropdown.Item >Profile</NavDropdown.Item>
 

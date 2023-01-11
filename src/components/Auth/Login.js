@@ -49,6 +49,12 @@ export default function Login() {
         }
 
     }
+    const handleOnKeyDown =(e)=>{
+       
+        if(e && e.key === "Enter"){
+            handleLogin()
+        }
+    }
     return (
         <div className='login-container'>
             <div className='header'>
@@ -86,6 +92,7 @@ export default function Login() {
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         autoComplete="on"
+                        onKeyDown={(e) => handleOnKeyDown(e)}
                     />
                 </div>
                 <div className='form-group col-4'>
