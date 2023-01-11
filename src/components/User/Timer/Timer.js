@@ -21,6 +21,7 @@ export default function Timer(props) {
         return "content"
     }
     const handleClickQuestion = (question, index) => {
+        setIndex(index)
 
         if (refDiv.current) {
             refDiv.current.forEach(item => {
@@ -31,13 +32,12 @@ export default function Timer(props) {
         }
         if (question && question.answers.length > 0) {
             let isSelected = question.answers.find(item => item.isSelected === true)
-            setIndex(index)
             if (isSelected) {
                 return;
             }
         }
         refDiv.current[index].className = 'content clicked'
-        
+
     }
     return (
         <div className='timer-container'>

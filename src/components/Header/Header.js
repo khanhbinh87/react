@@ -10,12 +10,17 @@ import { useSelector } from 'react-redux'
 function Header() {
     const navigate = useNavigate();
 
+    let isAuthenticated = useSelector(state => state.user.account)
+    console.log(isAuthenticated)
+
     const handleLogin = () => {
         navigate('/login')
 
     }
+    const handleLogout = () => {
+        
+    }
 
-    let isAuthenticated = useSelector(state => state.user.isAuthenticated)
 
     return (
         <Navbar bg="light" expand="lg" className="nav-container">
@@ -43,7 +48,7 @@ function Header() {
                                     <NavDropdown title="Setting" id="basic-nav-dropdown">
                                         <NavDropdown.Item >Profile</NavDropdown.Item>
 
-                                        <NavDropdown.Item >Log out</NavDropdown.Item>
+                                        <NavDropdown.Item ><span onClick={() => handleLogout()}>Log out</span></NavDropdown.Item>
 
                                     </NavDropdown>
                                 </>
