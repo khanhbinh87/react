@@ -5,18 +5,25 @@
     border-bottom: 1px dashed gray;
     padding-bottom: 10px;
 }
-.content{
+.content-main{
     margin-top: 15px;
     display: flex;
     gap:15px;
-    &-child{
+    .content{
         border: 1px solid gray;
         border-radius: 100%;
         padding: 5px 20px;
         font-size: 30px;
+        cursor: pointer;
         &:hover{
-            background-color: gray;
-            color: white;
+            color: red;
+
+        }
+        &.selected{
+            background-color: #c6c6c6;
+        }
+        &.clicked{
+            color: red
         }
     }
 }

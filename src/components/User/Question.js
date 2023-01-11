@@ -9,8 +9,8 @@ export default function Question(props) {
     if (_.isEmpty(data)) {
         return (<></>)
     }
-    const handleCheckBox = (event,aId,qId) => {
-       
+    const handleCheckBox = (event, aId, qId) => {
+
         handleCheck(aId, qId)
     }
 
@@ -18,7 +18,10 @@ export default function Question(props) {
         <>
             {
                 data.image ? <div className='q-image'>
-                    <img src={`data:image/jpeg;base64,${data.image}`} alt="props" onClick={() => setImagePreview(true)}/>
+                    <img
+                        style={{ cursor: 'pointer' }}
+                        src={`data:image/jpeg;base64,${data.image}`}
+                        alt="props" onClick={() => setImagePreview(true)} />
                     {
                         imagePreview && <Lightbox zoomStep="0.6" image={`data:image/jpeg;base64,${data.image}`} title={'text'} onClose={() => setImagePreview(false)} />
                     }
@@ -32,9 +35,9 @@ export default function Question(props) {
                         return (
                             <div className="form-check" key={`answer-${index}`}>
                                 <input
-                                     className="form-check-input" 
-                                     type="checkbox" 
-                                     checked={a.isSelected}
+                                    className="form-check-input"
+                                    type="checkbox"
+                                    checked={a.isSelected}
                                     onChange={(event) => handleCheckBox(event, a.id, +data.questionId)} />
                                 <label className="form-check-label" >
                                     {a.description}

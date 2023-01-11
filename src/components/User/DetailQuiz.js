@@ -136,6 +136,7 @@ export default function DetailQuiz() {
                     <Question
                         data={dataQuiz && dataQuiz.length > 0 ? dataQuiz[index] : []}
                         index={index}
+                        
                         handleCheck={handleCheck}
                     />
                 </div>
@@ -147,7 +148,7 @@ export default function DetailQuiz() {
                 </div>
             </div>
             <div className='right-content'>
-                <Timer dataQuiz={dataQuiz} handleFinish={handleFinish}/>
+                <Timer dataQuiz={dataQuiz} handleFinish={handleFinish} setIndex={setIndex} />
             </div>
             <ModalResult show={showModalResult} setShow={setShowModalResult} dataModalResult={dataModalResult}/>
         </div>
