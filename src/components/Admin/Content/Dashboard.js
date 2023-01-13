@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import './Dashboard.scss'
 import {
   BarChart,
@@ -10,42 +10,78 @@ import {
   Legend,
   ResponsiveContainer
 } from "recharts";
+import { getOverView } from '../../../services/apiServices';
 export default function Dashboard() {
-  const data = [
-    { name: "Page A", uv: 4000, pv: 2400, amt: 2400 },
-    { name: "Page B", uv: 3000, pv: 1398, amt: 2210 },
-    { name: "Page C", uv: 2000, pv: 9800, amt: 2290 },
-    { name: "Page D", uv: 2780, pv: 3908, amt: 2000 },
-    { name: "Page E", uv: 1890, pv: 4800, amt: 2181 },
-    { name: "Page F", uv: 2390, pv: 3800, amt: 2500 },
-    { name: "Page G", uv: 3490, pv: 4300, amt: 2100 }
-  ];
 
+  const [dataOverView, setDataOverView] = useState([])
+  const [dataChart, setDataChart] = useState([])
+
+  useEffect(() => {
+    fetchDataChart()
+  }, [])
+  const fetchDataChart = async () => {
+    let res = await getOverView()
+
+    if (res && res.EC === 0) {
+
+      setDataOverView(res.DT)
+      let Qz = 0, Qs = 0, As = 0;
+      Qz = res?.DT?.others?.countQuiz ?? 0
+      Qs = res?.DT?.others?.countQuestions ?? 0
+      As = res?.DT?.others?.countAnswers ?? 0
+      const data = [
+        { name: "Quizzes", "Qz": Qz },
+        { name: "Questions", "Qs": Qs },
+        { name: "Answers", "As": As },
+
+      ];
+      setDataChart(data)
+    }
+  }
   return (
 
     <div className='dashboard-container'>
       <div className='title-db'>Analytics Dashboard</div>
       <div className='content'>
         <div className='db-left'>
-          <div className='child'>1</div>
-          <div className='child'>2</div>
-          <div className='child'>3</div>
-          <div className='child'>4</div>
+          <div className='child'>
+            <span className='text'>Total users</span>
+            <span className='text-1'>{dataOverView && dataOverView.users && dataOverView.users.total ? <>{dataOverView.users.total}</> : <>0</>}</span>
+          </div>
+          <div className='child'>
+            <span className='text'>Total quizzes</span>
+            <span className='text-1'>{dataOverView && dataOverView.others
+              && dataOverView.others.countQuiz ? <>{dataOverView.others.countQuiz}</> : <>0</>}</span>
+          </div>
+          <div className='child'>
+            <span className='text'>Total questions</span>
+            <span className='text-1'>{dataOverView && dataOverView.others
+              && dataOverView.others.countQuestions ? <>{dataOverView.others.countQuestions}</> : <>0</>}</span>
+          </div>
+          <div className='child'>
+            <span className='text'>Total answers</span>
+            <span className='text-1'>{dataOverView && dataOverView.others
+              && dataOverView.others.countAnswers ? <>{dataOverView.others.countAnswers}</> : <>0</>}</span>
+          </div>
         </div>
+
+
         <div className='db-right'>
           <ResponsiveContainer>
-            <BarChart data={data} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
-              <CartesianGrid strokeDasharray="3 3" />
+            <BarChart data={dataChart} >
+              {/* <CartesianGrid strokeDasharray="3 3" /> */}
               <XAxis dataKey="name" />
               <YAxis />
               <Tooltip />
               <Legend />
-              <Bar dataKey="pv" fill="#8884d8" />
-              <Bar dataKey="uv" fill="#82ca9d" />
+              <Bar dataKey="Qz" fill="red" />
+              <Bar dataKey="Qs" fill="green" />
+              <Bar dataKey="As" fill="blue" />
             </BarChart>
           </ResponsiveContainer>
         </div>
       </div>
     </div>
+
   )
 }
