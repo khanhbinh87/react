@@ -1,17 +1,38 @@
 .admin-container {
-    display: flex;
+    display     : flex;
+
     .admin-sidebar {
         .pro-sidebar {
-            height: 100vh !important;
-            }
-    }
-    .admin-content{
-        width: 100%;
-        .admin-header{
-
+            height     : 100vh !important;
         }
-        .admin-main{
-            height: calc(100vh - 50px);
+    }
+
+    .admin-content {
+        width     : 100%;
+
+        .admin-icon {
+            font-size     : 20px;
+            color         : #566065
+        }
+
+        .admin-header {
+            padding             : 20px;
+            display             : flex;
+            justify-content     : space-between;
+            align-items         : center;
+        }
+
+        .admin-setting {
+            display         : flex;
+            gap             : 15px;
+            align-items     : center;
+        }
+
+        .admin-main {
+            height     : calc(100vh - 50px);
+        }
+        .admin-icon{
+            cursor: pointer;
         }
     }
 }

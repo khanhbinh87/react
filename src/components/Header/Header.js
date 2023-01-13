@@ -9,7 +9,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { logOut } from '../../services/apiServices';
 import { toast } from 'react-toastify';
 import { doLogout } from '../../redux/action/userAction';
-import Language from './Language';
+import Language from '../Header/Language';
 
 function Header() {
     const navigate = useNavigate();

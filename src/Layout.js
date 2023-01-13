@@ -1,4 +1,4 @@
-import React from 'react'
+import { Suspense } from 'react'
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import Admin from './components/Admin/Admin'
@@ -22,8 +22,9 @@ const NotFound = () => {
 }
 export default function Layout() {
     return (
-        <>
-            <BrowserRouter>
+
+        <Suspense fallback="...is loading">
+            <BrowserRouter >
                 <Routes>
                     <Route path="/" element={<App />}>
                         <Route index element={<HomePage />} />
@@ -53,6 +54,7 @@ export default function Layout() {
                 </Routes>
                 <ToastContainer />
             </BrowserRouter>
-        </>
+        </Suspense>
+
     )
 }

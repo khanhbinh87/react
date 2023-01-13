@@ -1,0 +1,9 @@
+{
+    "homepage" : {
+        "title":"There's a better way to ask",
+        "description":"You don't want to make a boring form",
+        "content":{
+            "login":"Get started"
+        }
+    }
+}

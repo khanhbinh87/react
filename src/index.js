@@ -13,7 +13,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-perfect-scrollbar/dist/css/styles.css';
 import 'nprogress/nprogress.css'
 import "react-awesome-lightbox/build/style.css";
-
+import i18n from './utils/i18n';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 

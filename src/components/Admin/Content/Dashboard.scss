@@ -1,0 +1,31 @@
+.dashboard-container {
+    padding     : 0px 15px 10px 15px;
+
+    .title-db {
+        padding-bottom     : 10px;
+    }
+
+    .content {
+        display     : flex;
+
+
+        .db-left {
+            width         : 50%;
+            border        : 1px solid red;
+            display       : flex;
+            flex-wrap     : wrap;
+
+            .child {
+                width                : 50%;
+                background-color     : green;
+                border               : 1px solid blue;
+                height               : 150px;
+            }
+        }
+
+        .db-right {
+            width      : 50%;
+            border     : 1px solid rgb(56, 36, 36);
+        }
+    }
+}

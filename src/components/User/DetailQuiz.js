@@ -48,7 +48,7 @@ export default function DetailQuiz() {
                         item.answers.isSelected = false
                         answers.push(item.answers)
                     })
-
+                    answers = _.orderBy(answers,['id'],['asc'])
                     return { questionId: key, answers, questionDes, image }
 
                 })
@@ -137,6 +137,7 @@ export default function DetailQuiz() {
                         data={dataQuiz && dataQuiz.length > 0 ? dataQuiz[index] : []}
                         index={index}
                         
+
                         handleCheck={handleCheck}
                     />
                 </div>
